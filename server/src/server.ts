@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
+import { FlowController } from "./utils/flowController.js";
 
 dotenv.config();
 
@@ -31,6 +32,10 @@ app.get("/", (_req, res) => {
 app.get("/health", (_req, res) => {
   res.status(200).send(`ok`);
 });
+
+// Flow endpoints
+app.get("/flow", FlowController.getFlowChart);
+app.get("/flow/data", FlowController.getFlowData);
 
 app.use("/auth", authRouter);
 
