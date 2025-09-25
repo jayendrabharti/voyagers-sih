@@ -1,0 +1,69 @@
+# This file allows you to configure Airflow Connections, Pools, and Variables in a single place for local development only.
+# NOTE: json dicts can be added to the conn_extra field as yaml key value pairs. See the example below.
+
+# For more information, refer to our docs: https://www.astronomer.io/docs/astro/cli/develop-project#configure-airflow_settingsyaml-local-development-only
+# For questions, reach out to: https://support.astronomer.io
+# For issues create an issue ticket here: https://github.com/astronomer/astro-cli/issues
+
+# airflow:
+#   connections:    
+#     # guardian API connection  
+#     - conn_id: guardian_default
+#       conn_type: HTTP
+#       conn_host: content.guardianapis.com  # just the domain url
+#       conn_port: 443
+#       conn_schema: https  # tell Airflow to use HTTPS
+#       conn_extra: '{"timeout": 30}'
+
+#       #postgres connection
+#     - conn_id: postgres_default
+#       conn_type: postgres
+#       conn_host: your-postgres-host.example.com  # Replace with your PostgreSQL server IP/hostname
+#       conn_port: 5432
+#       conn_schema: your_database_name  # Replace with your database name
+#       conn_login: your_username  # Replace with your PostgreSQL username
+#       conn_password: your_password  # Replace with your PostgreSQL password
+#       conn_extra: '{"sslmode": "prefer"}'
+  
+#   variables:
+#     # API Keys and other variables
+#     - variable_name: GUARDIAN_API_KEY
+#       variable_value: "0dbf2cb9-d09a-468e-82f3-0c0ffda75cff"
+
+#   pools:
+#     #  resource pools if needed
+#     - pool_name: api_pool
+#       pool_slot: 5
+#       pool_description: "Pool for external API calls"
+
+
+airflow:
+  connections:    
+    # Guardian API connection  
+    - conn_id: guardian_default
+      conn_type: HTTP
+      conn_host: content.guardianapis.com  # just the domain url
+      conn_port: 443
+      conn_schema: https  # tell Airflow to use HTTPS
+      conn_extra: '{"timeout": 30}'
+    
+    # PostgreSQL connection (Neon)
+    - conn_id: postgres_default
+      conn_type: postgres
+      conn_host: ep-aged-recipe-a1t83gta-pooler.ap-southeast-1.aws.neon.tech
+      conn_port: 5432
+      conn_schema: neondb
+      conn_login: neondb_owner
+      conn_password: npg_GxW0sRMrjBh2
+      conn_extra: '{"sslmode": "require", "channel_binding": "require"}'
+  
+  variables:
+    # API Keys and other variables
+    - variable_name: GUARDIAN_API_KEY
+      variable_value: "0dbf2cb9-d09a-468e-82f3-0c0ffda75cff"
+
+  pools:
+    # Resource pools if needed
+    - pool_name: api_pool
+      pool_slot: 5
+      pool_description: "Pool for external API calls"
