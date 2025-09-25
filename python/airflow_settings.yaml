@@ -1,0 +1,44 @@
+# This file allows you to configure Airflow Connections, Pools, and Variables in a single place for local development only.
+# NOTE: json dicts can be added to the conn_extra field as yaml key value pairs. See the example below.
+
+# For more information, refer to our docs: https://www.astronomer.io/docs/astro/cli/develop-project#configure-airflow_settingsyaml-local-development-only
+# For questions, reach out to: https://support.astronomer.io
+# For issues create an issue ticket here: https://github.com/astronomer/astro-cli/issues
+
+airflow:
+  connections:
+    # mongoDB connection
+    - conn_id: mongo_default
+      conn_type: mongo
+      conn_host: mongo  # service name from docker-compose if mongoDB is containerized
+      conn_port: 27017
+      # conn_login: ""  # Leave empty if no authentication
+      # conn_password: ""  # Leave empty if no authentication
+      # conn_extra: '{"authSource": "admin"}'  # Add if you need specific auth database
+    
+    # guardian API connection  
+    - conn_id: guardian_default
+      conn_type: HTTP
+      conn_host: content.guardianapis.com  # just the domain
+      conn_port: 443
+      conn_schema: https  # tell Airflow to use HTTPS
+      conn_extra: '{"timeout": 30}'
+  
+  variables:
+    # API Keys and other variables
+    - variable_name: GUARDIAN_API_KEY
+      variable_value: "0dbf2cb9-d09a-468e-82f3-0c0ffda75cff"
+    
+    # mongoDB Database Configuration
+    - variable_name: MONGO_DATABASE
+      variable_value: "environment_data"
+    
+    # collection name for storing articles
+    - variable_name: MONGO_COLLECTION
+      variable_value: "guardian_articles"
+
+  pools:
+    #  resource pools if needed
+    - pool_name: api_pool
+      pool_slot: 5
+      pool_description: "Pool for external API calls"
