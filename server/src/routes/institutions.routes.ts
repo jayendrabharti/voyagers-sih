@@ -10,7 +10,7 @@ import {
   getInstitutionTeachers,
   getInstitutionClasses,
 } from "../controllers/institutions.controllers.js";
-// import { validToken } from '../middlewares/validToken.js'; // Uncomment when ready to add auth
+import validToken from "../middlewares/validToken.js";
 
 const router = Router();
 
@@ -20,11 +20,11 @@ const router = Router();
  */
 
 // Basic CRUD operations
-router.post("/", createInstitution);
+router.post("/", validToken, createInstitution);
 router.get("/", getAllInstitutions);
 router.get("/:id", getInstitutionById);
-router.put("/:id", updateInstitution);
-router.delete("/:id", deleteInstitution);
+router.put("/:id", validToken, updateInstitution);
+router.delete("/:id", validToken, deleteInstitution);
 
 // Institution-specific data
 router.get("/:id/statistics", getInstitutionStatistics);

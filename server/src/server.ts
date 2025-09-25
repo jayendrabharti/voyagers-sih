@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import institutionRouter from "./routes/institutions.routes.js";
+import articlesRouter from "./routes/articles.routes.js";
 import { FlowController } from "./utils/flowController.js";
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.get("/flow/data", FlowController.getFlowData);
 
 app.use("/auth", authRouter);
 app.use("/institutions", institutionRouter);
+app.use("/articles", articlesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

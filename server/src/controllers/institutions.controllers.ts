@@ -25,16 +25,23 @@ const sendErrorResponse = (
 /**
  * Create a new institution
  * POST /institutions
- */
-/**
- * Create a new institution
- * POST /institutions
+ * Admin only
  */
 export const createInstitution = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
+    // Check if user is admin
+    if (!req.user?.isAdmin) {
+      sendErrorResponse(
+        res,
+        403,
+        "Only administrators can create institutions"
+      );
+      return;
+    }
+
     const { name, address, type, adminId } = req.body;
 
     // Validate required fields
@@ -205,12 +212,23 @@ export const getInstitutionById = async (
 /**
  * Update an institution
  * PUT /institutions/:id
+ * Admin only
  */
 export const updateInstitution = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
+    // Check if user is admin
+    if (!req.user?.isAdmin) {
+      sendErrorResponse(
+        res,
+        403,
+        "Only administrators can update institutions"
+      );
+      return;
+    }
+
     const { id } = req.params;
     const { name, address, type } = req.body;
 
@@ -271,12 +289,23 @@ export const updateInstitution = async (
 /**
  * Delete an institution
  * DELETE /institutions/:id
+ * Admin only
  */
 export const deleteInstitution = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
+    // Check if user is admin
+    if (!req.user?.isAdmin) {
+      sendErrorResponse(
+        res,
+        403,
+        "Only administrators can delete institutions"
+      );
+      return;
+    }
+
     const { id } = req.params;
 
     if (!id) {
