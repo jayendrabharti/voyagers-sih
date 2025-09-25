@@ -97,10 +97,10 @@ model Class {
   description   String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  teacherId     String
-  teacher       Teacher     @relation(fields: [teacherId], references: [id])
 
-  students     Student[]
+  // Many-to-many relationships
+  students     StudentClass[]
+  teachers     TeacherClass[]
   leaderboards Leaderboard[]
 
   @@map("classes")
@@ -112,9 +112,11 @@ model Teacher {
   user          User        @relation(fields: [userId], references: [id])
   institutionId String
   institution   Institution @relation(fields: [institutionId], references: [id])
-  classes       Class[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  // Many-to-many relationship with classes
+  classes TeacherClass[]
 
   @@map("teachers")
 }
@@ -125,14 +127,15 @@ model Student {
   user             User        @relation(fields: [userId], references: [id])
   institutionId    String
   institution      Institution @relation(fields: [institutionId], references: [id])
-  classId          String
-  class            Class       @relation(fields: [classId], references: [id])
   ecoPoints        Int         @default(0)
   level            Int         @default(1)
   streak           Int         @default(0)
   lastActivityDate DateTime?
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
+
+  // Many-to-many relationship with classes
+  classes StudentClass[]
 
   // Environmental learning relations
   completedLessons        LessonCompletion[]
@@ -143,6 +146,41 @@ model Student {
   badges                  StudentBadge[]
 
   @@map("students")
+}
+
+// Junction tables for many-to-many relationships
+
+model StudentClass {
+  id         String   @id @default(cuid())
+  studentId  String
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  classId    String
+  class      Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  enrolledAt DateTime @default(now())
+  isActive   Boolean  @default(true)
+
+  @@unique([studentId, classId])
+  @@map("student_classes")
+}
+
+model TeacherClass {
+  id         String      @id @default(cuid())
+  teacherId  String
+  teacher    Teacher     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  classId    String
+  class      Class       @relation(fields: [classId], references: [id], onDelete: Cascade)
+  assignedAt DateTime    @default(now())
+  isActive   Boolean     @default(true)
+  role       TeacherRole @default(PRIMARY)
+
+  @@unique([teacherId, classId])
+  @@map("teacher_classes")
+}
+
+enum TeacherRole {
+  PRIMARY
+  ASSISTANT
+  SUBSTITUTE
 }
 
 model Article {
