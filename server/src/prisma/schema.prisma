@@ -15,7 +15,7 @@ model User {
   avatar      String?
   dateOfBirth DateTime?
   isAdmin     Boolean   @default(false)
-  role        UserRole  @default(TEACHER)
+  role        UserRole  @default(USER)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -32,8 +32,9 @@ model User {
 
 enum UserRole {
   TEACHER
-  STUDENT
   PARENT
+  STUDENT
+  USER
 }
 
 model RefreshToken {
@@ -158,6 +159,10 @@ model Article {
 
   @@map("articles")
 }
+
+// ########################################
+// dont change anything before this
+// ########################################
 
 // Environmental Education Models
 
