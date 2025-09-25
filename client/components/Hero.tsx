@@ -13,10 +13,9 @@ export default function Hero(): JSX.Element {
         backgroundImage: "url('/herobackground.jpg')",
       }}
     >
-      
-
       {/* Hero content */}
       <div className="relative z-10">
+        {/* Heading box */}
         <div
           className="mb-10 inline-flex max-w-[950px] items-center justify-center rounded-4xl border border-black bg-yellow-300 px-2 py-2 shadow-[0_6px_0_#000] md:px-4 md:py-6"
           style={{ fontFamily: '"Press Start 2P", system-ui, sans-serif' }}
@@ -26,17 +25,20 @@ export default function Hero(): JSX.Element {
           </h1>
         </div>
 
-        <p className="mx-auto mb-306 max-w-2xl text-xs leading-relaxed text-white/95 md:text-sm lg:mb-20">
-          An AI-powered gamified platform that turns environmental education into fun challenges
+        {/* Subheading */}
+        <p className="mx-auto mb-10 max-w-2xl text-xs leading-relaxed text-white/95 md:text-sm lg:mb-20">
+          An AI-powered gamified platform that turns environmental education
+          into fun challenges
         </p>
 
+        {/* Dashboard button */}
         <Link
-          href="/dashboard"
-          className="inline-flex mt-30 items-center gap-4 rounded-full border-4 border-black bg-yellow-300 px-8 py-4 text-black shadow-[0_6px_0_#000] transition-transform hover:-translate-y-0.5 active:translate-y-0"
+          href="/student-dashboard"
+          className="inline-flex items-center gap-4 rounded-full border-4 border-black bg-yellow-300 px-8 py-4 text-black shadow-[0_6px_0_#000] transition-transform hover:-translate-y-0.5 active:translate-y-0"
           style={{ fontFamily: '"Press Start 2P", system-ui, sans-serif' }}
         >
           <span className="text-sm md:text-base">Go to Dashboard</span>
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full ">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

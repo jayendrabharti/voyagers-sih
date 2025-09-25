@@ -13,7 +13,7 @@ export default function Footer() {
             </div>
             <span className="text-black font-bold text-xl">Triloe</span>
           </div>
-          <p className="text-sm text-gray-700 mb-6 max-w-sm">
+          <p className="text-xl text-gray-700 mb-6 max-w-sm" style={{ fontFamily: "poppines" }}>
             Unlock performance with data-driven campaigns, creative
             storytelling, and impactful branding
           </p>
@@ -23,7 +23,7 @@ export default function Footer() {
         {/* Navigation Links */}
         <div>
           <h3 className="font-bold text-black mb-4">Explore</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+          <ul className="space-y-2 text-sm text-gray-700" style={{ fontFamily: "poppines" }}>
             <li><a href="#">What We Offer</a></li>
             <li><a href="#">Case Studies</a></li>
             <li><a href="#">Resources</a></li>
@@ -33,7 +33,7 @@ export default function Footer() {
 
         <div>
           <h3 className="font-bold text-black mb-4">Company</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+          <ul className="space-y-2 text-sm text-gray-700" style={{ fontFamily: "poppines" }}>
             <li><a href="#">Home</a></li>
             <li><a href="#">About Us</a></li>
             <li><a href="#">Careers</a></li>
@@ -43,7 +43,7 @@ export default function Footer() {
 
         <div>
           <h3 className="font-bold text-black mb-4">Legal Links</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+          <ul className="space-y-2 text-sm text-gray-700" style={{ fontFamily: "poppines" }}>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms & Conditions</a></li>
             <li><a href="#">Cookie Policy</a></li>
@@ -52,7 +52,7 @@ export default function Footer() {
         </div>
 
         {/* Request a Demo */}
-        <div className="col-span-2 md:col-span-1">
+        <div className="col-span-2 md:col-span-1" style={{ fontFamily: "poppines" }}>
           <h3 className="font-bold text-black mb-4">Request a Demo</h3>
           <form className="flex">
             <input

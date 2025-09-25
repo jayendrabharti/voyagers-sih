@@ -41,7 +41,7 @@ export default function HowItWorks() {
                     {/* Slide 2 */}
                     <div className="min-w-full flex flex-col items-center justify-center pt-32 rounded-lg text-black space-y-6">
                         <img
-                            src="/studylogo.png"
+                            src="/study12.png"
                             alt="Study Illustration"
                             className="w-60 h-60 mb-6"
                         />

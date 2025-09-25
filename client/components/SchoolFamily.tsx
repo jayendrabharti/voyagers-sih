@@ -3,8 +3,16 @@ import { JSX } from "react";
 
 export default function EducationLanding(): JSX.Element {
   return (
-    <div className="min-h-screen flex items-center justify-center p-8" style={{ background: 'linear-gradient(135deg,#0fbf9a 0%,#1fa2ff 100%)' }}>
-      <div className="w-full max-w-6xl">
+    <div 
+className="relative pt-30 flex h-200px w-full flex-col items-center justify-center bg-cover bg-center px-4 py-10 text-center md:px-6"
+      style={{
+        fontFamily: '"Press Start 2P", system-ui, sans-serif',
+        backgroundImage: "url('/herobackground.jpg')",
+      }}
+      > 
+           <div className="absolute inset-0 bg-black/60 z-0"></div>
+
+           <div className="w-full max-w-6xl z-2">
         {/* Top banner */}
         <div className="mx-auto mb-8 w-fit rounded-2xl bg-yellow-300 px-6 py-3 shadow-md" role="banner">
           <h1 className="text-black font-extrabold text-lg md:text-xl lg:text-2xl">Built for Schools & Families</h1>
@@ -34,13 +42,15 @@ export default function EducationLanding(): JSX.Element {
             </div>
 
             <h2 className="text-black font-bold text-lg md:text-xl mb-2">Teacher Dashboard</h2>
-            <p className="text-black text-sm mb-6">Auto-generate PPTs, quizzes, and lesson aids instantly. Track student scores &amp; streaks in real-time.</p>
+            <p className="text-black text-xl mb-6" 
+                              style={{ fontFamily: "poppines" }}
+>Auto-generate PPTs, quizzes, and lesson aids instantly. Track student scores &amp; streaks in real-time.</p>
 
             <button className="mt-auto inline-flex items-center gap-3 bg-black text-white px-4 py-2 rounded-lg border-2 border-black hover:opacity-95">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
                 <path d="M5 3v18l15-9L5 3z" fill="#fff" />
               </svg>
-              <span className="text-sm font-semibold">Get Started as a Teacher</span>
+              <span className="text-sm font-semibold" style={{ fontFamily: "poppines" }}>Get Started as a Teacher</span>
             </button>
           </article>
 
@@ -64,13 +74,13 @@ export default function EducationLanding(): JSX.Element {
             </div>
 
             <h2 className="text-black font-bold text-lg md:text-xl mb-2">Parent Insights</h2>
-            <p className="text-black text-sm mb-6">See your child's learning progress &amp; eco-habits. Celebrate streaks, view certificates, and reward eco-actions.</p>
+            <p className="text-black text-xl mb-6" style={{ fontFamily: "poppines" }}>See your child's learning progress &amp; eco-habits. Celebrate streaks, view certificates, and reward eco-actions.</p>
 
             <button className="mt-auto inline-flex items-center gap-3 bg-black text-white px-4 py-2 rounded-lg border-2 border-black hover:opacity-95">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
                 <path d="M5 3v18l15-9L5 3z" fill="#fff" />
               </svg>
-              <span className="text-sm font-semibold">Join as a Parent</span>
+              <span className="text-sm font-semibold" style={{ fontFamily: "poppines" }}>Join as a Parent</span>
             </button>
           </article>
 
@@ -94,7 +104,7 @@ export default function EducationLanding(): JSX.Element {
             </div>
 
             <h2 className="text-black font-bold text-lg md:text-xl mb-2">Rewards &amp; Certificates</h2>
-            <p className="text-black text-sm mb-6">Students earn verified eco-certificates. Printable badges for school portfolios &amp; family pride.</p>
+            <p className="text-black text-xl mb-6" style={{ fontFamily: "poppines" }}>Students earn verified eco-certificates. Printable badges for school portfolios &amp; family pride.</p>
 
             <button className="mt-auto inline-flex items-center gap-3 bg-black text-white px-4 py-2 rounded-lg border-2 border-black hover:opacity-95">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -102,7 +112,7 @@ export default function EducationLanding(): JSX.Element {
                 <path d="M8 12l4 4 4-4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M5 20h14" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="text-sm font-semibold">Download a Sample Certificate</span>
+              <span className="text-sm font-semibold" style={{ fontFamily: "poppines" }}>Download a Sample Certificate</span>
             </button>
           </article>
         </div>

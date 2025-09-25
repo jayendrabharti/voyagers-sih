@@ -24,7 +24,7 @@ export default function FAQPage() {
 
       {/* Tag */}
       <div className="relative z-10">
-        <div className="bg-yellow-300 border border-black text-black px-4 py-1 rounded-lg font-medium mb-6">
+        <div className="bg-yellow-300 w-25 mx-auto px-auto flex justifycontent-center border border-black text-black px-4 py-1 rounded-lg font-medium mb-6">
           FAQs
         </div>
 
@@ -34,7 +34,7 @@ export default function FAQPage() {
         </h1>
 
         {/* Paragraph */}
-        <p className="text-black text-center max-w-2xl mb-10">
+        <p className="text-black text-center max-w-2xl mb-10 text-xl" style={{ fontFamily: "poppines" }}>
           As we couldn't find anything on the market that checked those boxes,
           we decided to build our own recruiting software. Our tool is easy to
           set up.
@@ -42,7 +42,7 @@ export default function FAQPage() {
       </div>
 
       {/* FAQ List */}
-      <div className="relative z-10 w-full max-w-3xl space-y-6">
+      <div className="relative text-xl z-10 w-full max-w-3xl space-y-6" style={{ fontFamily: "poppines" }}>
         {faqs.map((faq, index) => (
           <div key={faq.id}>
             <div

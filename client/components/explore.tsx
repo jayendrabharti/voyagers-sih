@@ -20,7 +20,7 @@ const modules = [
     duration: "15 min",
     chapters: 3,
     missions: 2,
-    image: "/1aa88a99fa3b9fa85a2c53c38088a1dc.jpg",
+    image: "/study.jpg",
     category: "Climate",
   },
   {
@@ -29,7 +29,7 @@ const modules = [
     duration: "12 min",
     chapters: 2,
     missions: 1,
-    image: "/1aa88a99fa3b9fa85a2c53c38088a1dc.jpg",
+    image: "/study.jpg",
     category: "Energy",
   },
   {
@@ -38,7 +38,7 @@ const modules = [
     duration: "10 min",
     chapters: 2,
     missions: 2,
-    image: "/1aa88a99fa3b9fa85a2c53c38088a1dc.jpg",
+    image: "/study.jpg",
     category: "Biodiversity",
   },
   {
@@ -47,7 +47,7 @@ const modules = [
     duration: "8 min",
     chapters: 1,
     missions: 1,
-    image: "/1aa88a99fa3b9fa85a2c53c38088a1dc.jpg",
+    image: "/study.jpg",
     category: "Pollution",
   },
   {
@@ -56,7 +56,7 @@ const modules = [
     duration: "14 min",
     chapters: 3,
     missions: 2,
-    image: "/1aa88a99fa3b9fa85a2c53c38088a1dc.jpg",
+    image: "/study.jpg",
     category: "Sustainability",
   },
 ];
@@ -90,21 +90,19 @@ export default function ExploreModule() {
   const handleNext = () => setPage((p) => Math.min(totalPages - 1, p + 1));
 
   return (
-    <div className="min-h-screen text-black font-mono z-9"
-        style={{
-            backgroundImage: "url('/1aa88a99fa3b9fa85a2c53c38088a1dc.jpg')", 
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            }}
+    <div className="relative pt-30 flex h-200px w-full flex-col items-center justify-center bg-cover bg-center px-4 py-10 text-center md:px-6"
+      style={{
+        fontFamily: '"Press Start 2P", system-ui, sans-serif',
+        backgroundImage: "url('/herobackground.jpg')",
+      }}
     >
      {/* Dark overlay (below content) */}
-     <div className="absolute inset-0 bg-black/50 z-0"></div>
+     <div className="absolute inset-0 bg-black/60 z-0"></div>
      
       {/* Header */}
       <div className="flex items-center justify-center pt-12 pb-2 relative">
         <h1
-          className="bg-yellow-400 px-8 py-3 rounded text-3xl font-bold tracking-widest"
+          className="bg-yellow-400 px-8 py-3 rounded text-3xl text-black font-bold tracking-widest"
           style={{ fontFamily: "monospace" }}
         >
           Explore Modules
@@ -112,7 +110,7 @@ export default function ExploreModule() {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2 bg-yellow-400 px-8 py-4 rounded-lg mx-auto w-fit mt-8 mb-8">
+      <div className="flex flex-wrap items-center justify-center gap-2 bg-yellow-400 px-8 py-4 rounded-lg mx-auto w-fit mt-8 mb-8 z-2">
         {categories.map((cat) => (
           <button
             key={cat}
@@ -143,21 +141,22 @@ export default function ExploreModule() {
         </button>
 
         {/* Cards Row */}
-        <div className="flex flex-row gap-8 px-8 w-full justify-center transition-all duration-700 ease-in-out min-h-[400px]">
+        <div className="flex pb-40 flex-row gap-8 px-8 w-full justify-center transition-all duration-700 ease-in-out min-h-[400px]">
           {visibleModules.map((mod, idx) => (
             <div
               key={idx}
-              className="w-80 min-w-80 rounded-3xl overflow-hidden bg-yellow-400 shadow-lg flex flex-col flex-shrink-0"
+              className="w-80 min-w-80 text-black rounded-3xl overflow-hidden bg-yellow-400 shadow-lg flex flex-col flex-shrink-0"
             >
               <img
                 src={mod.image}
                 alt={mod.title}
                 className="w-full h-40 object-cover"
               />
-              <div className="p-6 flex flex-col justify-between h-full">
+              <div className="p-6 flex flex-col justify-between h-full"
+              style={{ fontFamily: "monospace" }}>
                 <h2
                   className="text-xl font-bold mb-2 tracking-widest"
-                  style={{ fontFamily: "monospace" }}
+                  style={{ fontFamily: "poppines" }}
                 >
                   {mod.title}
                 </h2>

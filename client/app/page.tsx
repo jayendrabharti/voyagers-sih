@@ -6,6 +6,7 @@ import SchoolAndFamily from "@/components/SchoolFamily";
 import Join from "@/components/Join";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import Platform from "@/components/Platform";
 
 
 export default function Home() {
@@ -20,8 +21,9 @@ export default function Home() {
       <div>
         <Hero />
       </div>
-      <HowItWork />
+      <Platform />
       <Explore />
+      <HowItWork />
       <SchoolAndFamily />
       <Join />
       <FAQ />
