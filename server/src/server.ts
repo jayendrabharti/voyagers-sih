@@ -7,6 +7,7 @@ import institutionRouter from "./routes/institutions.routes.js";
 import articlesRouter from "./routes/articles.routes.js";
 import classesRouter from "./routes/classes.routes.js";
 import quizzesRouter from "./routes/quizzes.routes.js";
+import lessonsRouter from "./routes/lessons.routes.js";
 import { FlowController } from "./utils/flowController.js";
 
 dotenv.config();
@@ -46,6 +47,7 @@ app.use("/institutions", institutionRouter);
 app.use("/articles", articlesRouter);
 app.use("/classes", classesRouter);
 app.use("/quizzes", quizzesRouter);
+app.use("/lessons", lessonsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
