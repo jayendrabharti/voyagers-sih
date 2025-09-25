@@ -28,6 +28,10 @@ app.get("/", (_req, res) => {
   res.send(`This is your API`);
 });
 
+app.get("/health", (_req, res) => {
+  res.status(200).send(`ok`);
+});
+
 app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
