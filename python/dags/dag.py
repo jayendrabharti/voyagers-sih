@@ -17,7 +17,7 @@ default_args = {
     'retry_delay': timedelta(minutes=3)
 }
 
-# Creating dag object
+# dag object
 with DAG(
     dag_id='env_etl_pipeline_dag',
     default_args=default_args,
@@ -35,7 +35,7 @@ with DAG(
         try:
             postgres_hook = PostgresHook(postgres_conn_id=POSTGRES_CONN_ID)
             
-            # Check if table exists and get its structure
+            #  cheking if table exists and get its structure
             check_table_sql = """
             SELECT column_name, data_type 
             FROM information_schema.columns 
@@ -51,7 +51,7 @@ with DAG(
             for col_name, col_type in columns:
                 logger.info(f"Column: {col_name} ({col_type})")
             
-            # Create indexes if they don't exist (for better performance)
+            # create indexes if they dont exist
             index_sql = """
             CREATE INDEX IF NOT EXISTS idx_articles_publish_date ON articles("publishDate");
             CREATE INDEX IF NOT EXISTS idx_articles_section ON articles(section);
@@ -74,7 +74,7 @@ with DAG(
             # API key
             api_key = Variable.get("GUARDIAN_API_KEY")
             
-            # HttpHook to get connection details from Airflow
+            # HttpHook to get connection details from airflow
             http_hook = HttpHook(http_conn_id=API_CONN_ID, method='GET')
 
             yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d') 
@@ -121,7 +121,7 @@ with DAG(
         logger = logging.getLogger(__name__)
         
         try:
-            # Validate input data
+            # validate input data
             if not data or 'response' not in data:
                 raise ValueError("Invalid data structure from Guardian API")
             
@@ -136,16 +136,16 @@ with DAG(
             extraction_date = datetime.now()
             
             for article in results:
-                # Handle missing fields gracefully
+                # handle missing fields
                 fields = article.get('fields', {})
                 
-                # Parse publication date
+                # parse publication date
                 pub_date_str = article.get('webPublicationDate', '')
                 try:
-                    # Guardian API returns dates in ISO format like "2025-01-15T10:30:00Z"
+                    # if guardian API returns dates in ISO format like "2025-01-15T10:30:00Z"
                     if pub_date_str:
                         pub_date = datetime.fromisoformat(pub_date_str.replace('Z', '+00:00'))
-                        # Convert to naive datetime (remove timezone info for PostgreSQL)
+                        # convert to naive datetime (remove timezone info for PostgreSQL)
                         pub_date = pub_date.replace(tzinfo=None)
                     else:
                         pub_date = None
@@ -153,11 +153,11 @@ with DAG(
                     logger.warning(f"Could not parse date: {pub_date_str}")
                     pub_date = None
                 
-                # Clean and truncate text fields to avoid PostgreSQL errors
+                # clean and truncate text fields- no errors
                 headline = fields.get('headline', 'No headline available')[:1000]  # Truncate if too long
                 body = fields.get('bodyText', 'No content available')
                 
-                # Create article dictionary matching your Prisma schema
+                # article dictionary
                 article_dict = {
                     'publishDate': pub_date,
                     'extractedDate': extraction_date,
@@ -179,24 +179,72 @@ with DAG(
 
     @task 
     def load_guardian(articles_data):
-        """Load transformed articles into PostgreSQL"""
+        """Load with PostgreSQL UUID generation"""
         logger = logging.getLogger(__name__)
         
         try:
             if not articles_data:
                 logger.info("No articles to load")
-                return
+                return {"loaded": 0, "errors": 0}
             
             postgres_hook = PostgresHook(postgres_conn_id=POSTGRES_CONN_ID)
             
-            # Prepare insert SQL matching your existing schema
+            # Setup UUID extension and fix updatedAt column
+            setup_sql = """
+            -- Enable UUID extension if not already enabled
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+            
+            -- Setup defaults and constraints
+            DO $
+            BEGIN
+                -- Try to set default UUID generation for id column
+                ALTER TABLE articles ALTER COLUMN id SET DEFAULT uuid_generate_v4();
+            EXCEPTION
+                WHEN others THEN
+                    -- If that fails, try gen_random_uuid (available in newer PostgreSQL)
+                    BEGIN
+                        ALTER TABLE articles ALTER COLUMN id SET DEFAULT gen_random_uuid();
+                    EXCEPTION
+                        WHEN others THEN
+                            RAISE NOTICE 'Could not set UUID default, will generate manually';
+                    END;
+            END
+            $;
+            
+            -- Fix updatedAt column to have proper default and trigger
+            ALTER TABLE articles ALTER COLUMN "updatedAt" SET DEFAULT CURRENT_TIMESTAMP;
+            
+            -- Create or replace the trigger function for updatedAt
+            CREATE OR REPLACE FUNCTION update_updated_at_column()
+            RETURNS TRIGGER AS $
+            BEGIN
+                NEW."updatedAt" = CURRENT_TIMESTAMP;
+                RETURN NEW;
+            END;
+            $ language 'plpgsql';
+            
+            -- Drop trigger if it exists and recreate
+            DROP TRIGGER IF EXISTS update_articles_updated_at ON articles;
+            CREATE TRIGGER update_articles_updated_at 
+                BEFORE UPDATE ON articles 
+                FOR EACH ROW 
+                EXECUTE FUNCTION update_updated_at_column();
+            """
+            
+            try:
+                postgres_hook.run(setup_sql)
+                logger.info("UUID extension and default setup completed")
+            except Exception as setup_error:
+                logger.warning(f"Setup warning (continuing): {setup_error}")
+            
+            # insert SQL
             insert_sql = """
             INSERT INTO articles (
                 "publishDate", "extractedDate", url, headline, 
-                body, section, source
+                body, section, source, "updatedAt"
             ) VALUES (
                 %(publishDate)s, %(extractedDate)s, %(url)s, 
-                %(headline)s, %(body)s, %(section)s, %(source)s
+                %(headline)s, %(body)s, %(section)s, %(source)s, CURRENT_TIMESTAMP
             )
             ON CONFLICT (url) 
             DO UPDATE SET 
@@ -205,26 +253,40 @@ with DAG(
                 body = EXCLUDED.body,
                 section = EXCLUDED.section,
                 "updatedAt" = CURRENT_TIMESTAMP
+            RETURNING id, url;
             """
             
-            # Insert articles in batch
-            inserted_count = 0
-            for article in articles_data:
+            loaded_count = 0
+            error_count = 0
+            
+            for i, article in enumerate(articles_data):
                 try:
-                    postgres_hook.run(insert_sql, parameters=article)
-                    inserted_count += 1
+                    logger.info(f"Processing article {i+1}/{len(articles_data)}: {article['headline'][:50]}...")
+                    
+                    result = postgres_hook.get_records(insert_sql, parameters=article)
+                    
+                    if result:
+                        article_id, url = result[0]
+                        logger.info(f"✓ Article {i+1} loaded successfully with ID: {article_id}")
+                        loaded_count += 1
+                    else:
+                        logger.warning(f"Article {i+1} processed but no ID returned")
+                        loaded_count += 1
+                        
                 except Exception as e:
-                    logger.error(f"Failed to insert article {article.get('id', 'unknown')}: {str(e)}")
-                    # Continue with other articles instead of failing the entire task
+                    error_count += 1
+                    logger.error(f"✗ Failed to insert article {i+1}: {str(e)}")
                     continue
             
-            logger.info(f"Successfully loaded {inserted_count} out of {len(articles_data)} articles into PostgreSQL")
+            logger.info(f"Load completed: {loaded_count} successful, {error_count} errors")
             
-            # Verify the insertion
-            count_sql = 'SELECT COUNT(*) FROM articles WHERE DATE("extractedDate") = CURRENT_DATE'
-            result = postgres_hook.get_first(count_sql)
-            total_today = result[0] if result else 0
-            logger.info(f"Total articles extracted today: {total_today}")
+            # verify if inserted or not
+            count_today = postgres_hook.get_first(
+                'SELECT COUNT(*) FROM articles WHERE DATE("extractedDate") = CURRENT_DATE'
+            )[0]
+            logger.info(f"Total articles extracted today: {count_today}")
+            
+            return {"loaded": loaded_count, "errors": error_count}
             
         except Exception as e:
             logger.error(f"Load task failed: {str(e)}")
@@ -237,8 +299,8 @@ with DAG(
         
         try:
             postgres_hook = PostgresHook(postgres_conn_id=POSTGRES_CONN_ID)
-            
-            # Check for duplicate URLs (since url is unique in your schema)
+
+            # check for duplicate URLs (since url is unique in schema)
             duplicate_check = """
             SELECT url, COUNT(*) as count 
             FROM articles 
@@ -251,7 +313,7 @@ with DAG(
             if duplicates:
                 logger.warning(f"Found {len(duplicates)} duplicate URLs")
             
-            # Check for articles with missing critical fields
+            # check for articles with missing critical fields
             missing_data_check = """
             SELECT COUNT(*) 
             FROM articles 
