@@ -9,9 +9,9 @@ API_CONN_ID = 'airflow_default'
 
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2024, 1, 1),
+    'start_date': datetime(2025, 1, 1),
     'retries': 1,
-    'retry_delay': timedelta(minutes=5)
+    'retry_delay': timedelta(minutes=3)
 }
 
 # creating dag object
@@ -20,7 +20,7 @@ with DAG(
     default_args=default_args,
     schedule='@daily',
     catchup=False,
-    description='Extract environmental news from Guardian API and load to MongoDB',
+    description='Extract environmental news from Guardian API and load to Postgres',
     tags=['environment', 'news', 'guardian']
 ) as dag:
     
@@ -35,20 +35,20 @@ with DAG(
             # Use HttpHook to get connection details from Airflow
             http_hook = HttpHook(http_conn_id=API_CONN_ID, method='GET')
 
-            # calculate date range (yesterday to today for daily articles)
-            yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
-            today = datetime.now().strftime('%Y-%m-%d')
+            yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d') # get and format yesterday date
+            today = datetime.now().strftime('%Y-%m-%d') # get and format today date
             
-            # build endpoin- just the path- not full URL
+            # build endpoint- just the path- not full URL
             endpoint = '/search'
 
+            # query parameters for url
             query_params = {
                 'section': 'environment',
                 'from-date': yesterday,
                 'to-date': today,
                 'show-fields': 'headline,bodyText',
                 'api-key': api_key,
-                'page-size': '50'
+                'page-size': '20'
             }
             logger.info(f"Fetching articles from {yesterday} to {today}")
             
@@ -74,7 +74,7 @@ with DAG(
 
     @task
     def transform_guardian(data):
-        """Transform Guardian API response to structured format"""
+        '''Transform guardian data into dictionary'''
         logger = logging.getLogger(__name__)
         
         try:
@@ -90,7 +90,7 @@ with DAG(
                 return []
             
             data_list = []
-            extraction_date = datetime.now().isoformat()
+            extraction_date = datetime.now().isoformat() # extraction date for tracking purpose
             
             for article in results:
                 # handle missing fields
