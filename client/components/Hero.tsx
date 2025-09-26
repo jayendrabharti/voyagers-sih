@@ -155,7 +155,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      <BotComponent />
+      {/* <BotComponent /> */}
     </motion.section>
   );
 }
