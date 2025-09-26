@@ -1,14 +1,38 @@
 "use client";
 
-import Link from "next/link";
-import React from "react";
-import { JSX } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import BotComponent from "./bot";
 
+export default function Hero() {
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
+  // Load user from localStorage when page mounts
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, []);
 
+  // Handle dashboard navigation
+  const handleDashboardRedirect = () => {
+    if (!user || !user.isLoggedIn) {
+      alert("Please sign in first!");
+      router.push("/auth-model");
+      return;
+    }
 
-export default function Hero(): JSX.Element {
+    if (user.role === "teacher") {
+      router.push("/teacher-dashboard");
+    } else {
+      router.push("/student-dashboard");
+    }
+  };
+
   return (
     <section
       className="relative flex h-screen w-full flex-col items-center justify-center bg-cover bg-center px-4 text-center md:px-6"
@@ -31,17 +55,23 @@ export default function Hero(): JSX.Element {
 
         {/* Subheading */}
         <p className="mx-auto mb-10 max-w-2xl text-xs leading-relaxed text-white/95 md:text-sm lg:mb-20">
-          A Gamified platform that turns environmental education
-          into fun challenges
+          A Gamified platform that turns environmental education into fun
+          challenges
         </p>
 
-        {/* Dashboard button */}
-        <Link
-          href="/student-dashboard"
+        {/* Dashboard Button (Role-Based) */}
+        <button
+          onClick={handleDashboardRedirect}
           className="inline-flex items-center gap-4 rounded-full border-4 border-black bg-yellow-300 px-8 py-4 text-black shadow-[0_6px_0_#000] transition-transform hover:-translate-y-0.5 active:translate-y-0"
           style={{ fontFamily: '"Press Start 2P", system-ui, sans-serif' }}
         >
-          <span className="text-sm md:text-base">Student Dashboard</span>
+          <span className="text-sm md:text-base">
+            {user?.role === "teacher"
+              ? "Teacher Dashboard"
+              : user?.role === "student"
+              ? "Student Dashboard"
+              : "Go to Dashboard"}
+          </span>
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -52,24 +82,7 @@ export default function Hero(): JSX.Element {
               <path d="M4 12a1 1 0 001 1h10.586l-3.293 3.293a1 1 0 101.414 1.414l5.003-5.003a1 1 0 000-1.414l-5.003-5.003a1 1 0 10-1.414 1.414L15.586 11H5a1 1 0 00-1 1z" />
             </svg>
           </span>
-        </Link>
-        <Link
-          href="/teacher-dashboard"
-          className="inline-flex items-center gap-4 rounded-full border-4 border-black bg-yellow-300 px-8 py-4 text-black shadow-[0_6px_0_#000] transition-transform hover:-translate-y-0.5 active:translate-y-0"
-          style={{ fontFamily: '"Press Start 2P", system-ui, sans-serif' }}
-        >
-          <span className="text-sm md:text-base">Teacher Dashboard</span>
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="h-4 w-4 text-yellow-300"
-            >
-              <path d="M4 12a1 1 0 001 1h10.586l-3.293 3.293a1 1 0 101.414 1.414l5.003-5.003a1 1 0 000-1.414l-5.003-5.003a1 1 0 10-1.414 1.414L15.586 11H5a1 1 0 00-1 1z" />
-            </svg>
-          </span>
-        </Link>
+        </button>
       </div>
 
       <BotComponent />

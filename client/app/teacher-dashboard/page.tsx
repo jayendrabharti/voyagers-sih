@@ -12,10 +12,6 @@ type NavLink = {
 const navLinks: NavLink[] = [
   { label: "Dashboard", key: "dashboard" },
   { label: "Modules", key: "modules" },
-  { label: "Assignments", key: "assignments" },
-  { label: "Missions", key: "missions" },
-  { label: "Student Reports", key: "reports" },
-  { label: "Certificates & Rewards", key: "certificates" },
   { label: "Chat", key: "chat" },
 ];
 

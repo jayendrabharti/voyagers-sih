@@ -16,7 +16,7 @@ export default function HowItWorks() {
     return (
         <section className="min-h-screen relative overflow-hidden bg-gradient-to-b from-green-400 to-blue-500">
             {/* Fixed Header */}
-            <h1 className="absolute top-6 left-1/2 transform -translate-x-1/2 text-black font-bold text-xl bg-yellow-400 px-4 py-2 rounded z-50">
+            <h1 className="absolute top-6 left-1/2 transform -translate-x-1/2 text-black font-bold text-xl bg-yellow-400 px-4 py-2 rounded z-0">
                 How It Works
             </h1>
 
@@ -28,22 +28,25 @@ export default function HowItWorks() {
                 >
                     {/* Slide 1 */}
                     <div className="min-w-full flex flex-col items-center justify-center pt-32 rounded-lg text-black space-y-6">
-                        <span className="text-9xl">🧠</span>
+                        <img
+                            src="/brain.png"
+                            alt="Study Illustration"
+                            className="w-60 h-60 mb-0"
+                        />
                         <div className="w-full max-w-xl bg-yellow-400 border-2 border-black p-8 shadow-lg text-black space-y-4 font-mono">
                             <h2 className="text-2xl font-bold">AI Creates Modules</h2>
                             <p>
                                 From real-world news, science reports &amp; government advisories.
                             </p>
-                            <div className="text-5xl">🎮</div>
                         </div>
                     </div>
 
                     {/* Slide 2 */}
-                    <div className="min-w-full flex flex-col items-center justify-center pt-32 rounded-lg text-black space-y-6">
+                    <div className="min-w-full flex flex-col items-center justify-center pt-2 rounded-lg text-black space-y-6">
                         <img
                             src="/study12.png"
                             alt="Study Illustration"
-                            className="w-60 h-60 mb-6"
+                            className="w-60 h-60 mb-0"
                         />
                         <div className="w-full max-w-2xl bg-yellow-400 border-4 border-black p-8 shadow-lg text-black flex flex-col items-start space-y-4">
                             <h2 className="text-3xl font-bold tracking-widest">
@@ -57,8 +60,11 @@ export default function HowItWorks() {
 
                     {/* Slide 3 */}
                     <div className="min-w-full flex flex-col items-center justify-center pt-32 rounded-lg text-black space-y-6">
-                        <div className="text-7xl">🏆</div>
-                        <div className="w-full max-w-2xl bg-yellow-400 border-4 border-black p-8 shadow-lg text-black flex flex-col items-start space-y-4">
+                        <img
+                            src="/trophy.png"
+                            alt="Study Illustration"
+                            className="w-60 h-60 mb-0"
+                        />                        <div className="w-full max-w-2xl bg-yellow-400 border-4 border-black p-8 shadow-lg text-black flex flex-col items-start space-y-4">
                             <h2 className="text-3xl font-bold tracking-widest">Earn & Impact</h2>
                             <p>
                                 Collect streaks, badges & real-world rewards for students.
@@ -98,7 +104,7 @@ export default function HowItWorks() {
             </div>
 
             {/* CTA Button */}
-            <button className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black px-6 py-2 rounded hover:scale-105 transition z-50">
+            <button className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black px-6 py-2 rounded hover:scale-105 transition z-0">
                 Explore a Module ▶
             </button>
         </section>

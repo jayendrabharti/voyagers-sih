@@ -25,24 +25,21 @@ export default function DashboardPage() {
 
 
       {/* Sidebar */}
-      <aside className="w-72 bg-green-900 text-white px-4 py-6 flex-shrink-0 relative z-20">
-        <div className="text-sm font-semibold mb-6">Menu</div>
+      <aside className="w-72 bg-green-900/80 text-white px-4 py-6 flex-shrink-0 relative z-20">
+        <div className="text-l font-semibold mb-6">Menu</div>
         <nav className="space-y-2">
           <NavItem icon={<Home size={18} />} label="Overview" activeTab={activeTab} onClick={() => setActiveTab('Overview')} />
           <NavItem icon={<Grid size={18} />} label="Modules" activeTab={activeTab} onClick={() => setActiveTab('Modules')} />
           <NavItem icon={<FileText size={18} />} label="Assignments" activeTab={activeTab} onClick={() => setActiveTab('Assignments')} />
-          <NavItem icon={<Flag size={18} />} label="Missions" activeTab={activeTab} onClick={() => setActiveTab('Missions')} />
           <NavItem icon={<Trophy size={18} />} label="LeaderBoard" activeTab={activeTab} onClick={() => setActiveTab('LeaderBoard')} />
           <NavItem icon={<MessageCircle size={18} />} label="Messages" badge="2" activeTab={activeTab} onClick={() => setActiveTab('Messages')} />
-          <NavItem icon={<Award size={18} />} label="Certificates" activeTab={activeTab} onClick={() => setActiveTab('Certificates')} />
-          <NavItem icon={<Settings size={18} />} label="Settings" activeTab={activeTab} onClick={() => setActiveTab('Settings')} />
         </nav>
       </aside>
 
       {/* Main Column */}
       <div className="flex-1 flex flex-col relative z-20">
         {/* Header */}
-        <header className="w-full bg-gradient-to-r from-blue-600 to-blue-400 px-6 py-4 flex items-center justify-between">
+        <header className="w-full bg-gradient-to-r from-blue-600/80 to-blue-400/80 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-green-400 flex items-center justify-center shadow">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +76,7 @@ export default function DashboardPage() {
         </header>
 
         {/* Content area */}
-        <div className="flex-1 p-6 bg-gray-50">
+        <div className="flex-1 p-6 ">
           <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
             {/* Conditional layout: Overview (main + stats) or Modules (full-width main) */}
             {activeTab === 'Overview' ? (
@@ -90,6 +87,76 @@ export default function DashboardPage() {
 
                 <aside className="col-span-4 space-y-4 sticky top-6">
                   {/* Student Profile Card */}
+                  <div className="bg-gradient-to-br from-orange-500 to-red-400 rounded-xl p-4 text-white shadow">
+                    <div className="flex items-center gap-3">
+                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
+                        <Image src="/avatar.png" alt="student" width={64} height={64} className="object-cover" />
+                      </div>
+                      <div style={{fontFamily : "poppine"}}>
+                        <div className="font-semibold text-lg">Ajay Sharma</div>
+                        <div className="text-xs opacity-90">Student • 8,979 Points</div>
+                      </div>
+                    </div>
+                    <div className="mt-4" style={{fontFamily : "poppine"}}>
+                      <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden">
+                        <div className="h-full bg-white rounded-full" style={{ width: '45%' }} />
+                      </div>
+                      <div className="text-xs mt-2">45% Profile Completed</div>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-3 gap-2 text-center" style={{fontFamily : "poppine"}}>
+                      <StatBox label="Streaks" value="54" icon={<Star size={18} />} />
+                      <StatBox label="Missions" value="98" icon={<Shield size={18} />} />
+                      <StatBox label="Rank" value="02" icon={<Trophy size={18} />} />
+                    </div>
+                  </div>
+
+                  {/* Weekly Streak */}
+                  <div className="bg-green-800 rounded-xl p-4 text-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2 font-semibold"> <Calendar size={16} /> Weekly Streak</div>
+                      <div className="text-xs">Sep 2025</div>
+                    </div>
+                    <div className="flex gap-2" style={{fontFamily : "poppine"}}>
+                      {renderWeekDays()}
+                    </div>
+                  </div>
+
+                  {/* Course Progress Row */}
+                  <div className="flex gap-3">
+                    <div className="flex-1 bg-orange-300 rounded-xl p-3 text-sm">
+                      <div className="font-semibold">3 Courses In Progress</div>
+                      <div className="text-xs mt-1" style={{fontFamily : "poppine"}}>Keep up the momentum</div>
+                    </div>
+                    <div className="flex-1 bg-orange-300 rounded-xl p-3 text-sm">
+                      <div className="font-semibold">13 Courses Completed</div>
+                      <div className="text-xs mt-1" style={{fontFamily : "poppine"}}>Great job!</div>
+                    </div>
+                  </div>
+
+                  {/* Badges */}
+                  <div className="bg-white rounded-xl p-3">
+                    <div className="font-semibold mb-2">Badges</div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-yellow-300 flex items-center justify-center">★</div>
+                      <div className="w-12 h-12 rounded-full bg-purple-300 flex items-center justify-center">★</div>
+                      <div className="w-12 h-12 rounded-full bg-indigo-300 flex items-center justify-center">★</div>
+                    </div>
+                  </div>
+                </aside>
+              </>
+            ) : activeTab === 'Modules' ? (
+              <main className="col-span-12">
+                <ModulesContent />
+              </main>
+            ) : activeTab === 'Assignments' ? (
+              <>
+                <main className="col-span-8">
+                  <AssignmentsContent />
+                </main>
+
+                <aside className="col-span-4 space-y-4 sticky top-6">
+                  {/* reuse right-hand stats panel from Overview */}
                   <div className="bg-gradient-to-br from-orange-500 to-red-400 rounded-xl p-4 text-white shadow">
                     <div className="flex items-center gap-3">
                       <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
@@ -114,7 +181,6 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Weekly Streak */}
                   <div className="bg-green-800 rounded-xl p-4 text-white">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2 font-semibold"> <Calendar size={16} /> Weekly Streak</div>
@@ -125,7 +191,6 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Course Progress Row */}
                   <div className="flex gap-3">
                     <div className="flex-1 bg-orange-300 rounded-xl p-3 text-sm">
                       <div className="font-semibold">3 Courses In Progress</div>
@@ -137,10 +202,9 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Badges */}
                   <div className="bg-white rounded-xl p-3">
                     <div className="font-semibold mb-2">Badges</div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3"  style={{fontFamily : "poppine"}}>
                       <div className="w-12 h-12 rounded-full bg-yellow-300 flex items-center justify-center">★</div>
                       <div className="w-12 h-12 rounded-full bg-purple-300 flex items-center justify-center">★</div>
                       <div className="w-12 h-12 rounded-full bg-indigo-300 flex items-center justify-center">★</div>
@@ -148,12 +212,37 @@ export default function DashboardPage() {
                   </div>
                 </aside>
               </>
-            ) : activeTab === 'Modules' ? (
+            ) : activeTab === 'Missions' ? (
+              <>
+                <main className="col-span-8">
+                  <MissionsContent />
+                </main>
+
+                <aside className="col-span-4 space-y-4 sticky top-6">
+                  {/* right-hand stats reused */}
+                  <div className="bg-gradient-to-br from-orange-500 to-red-400 rounded-xl p-4 text-white shadow">
+                    <div className="flex items-center gap-3">
+                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
+                        <Image src="/avatar.png" alt="student" width={64} height={64} className="object-cover" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-lg">Ajay Sharma</div>
+                        <div className="text-xs opacity-90">Student • 8,979 Points</div>
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              </>
+            ) : activeTab === 'LeaderBoard' ? (
               <main className="col-span-12">
-                <ModulesContent />
+                <LeaderboardContent />
+              </main>
+            ) : activeTab === 'Messages' ? (
+              <main className="col-span-12">
+                <MessagesContent />
               </main>
             ) : (
-              // fallback for other nav items — keep showing overview for now
+              // default fallback: overview with small notice
               <>
                 <main className="col-span-8">
                   <OverviewContent />
@@ -165,7 +254,7 @@ export default function DashboardPage() {
                   <div className="bg-gradient-to-br from-orange-500 to-red-400 rounded-xl p-4 text-white shadow">
                     <div className="flex items-center gap-3">
                       <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
-                        <Image src="/images/student.jpg" alt="student" width={64} height={64} className="object-cover" />
+                        <Image src="/avatar.png" alt="student" width={64} height={64} className="object-cover" />
                       </div>
                       <div>
                         <div className="font-semibold text-lg">Ajay Sharma</div>
@@ -209,7 +298,7 @@ export default function DashboardPage() {
 
                   <div className="bg-white rounded-xl p-3">
                     <div className="font-semibold mb-2">Badges</div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3"  style={{fontFamily : "poppine"}}>
                       <div className="w-12 h-12 rounded-full bg-yellow-300 flex items-center justify-center">★</div>
                       <div className="w-12 h-12 rounded-full bg-purple-300 flex items-center justify-center">★</div>
                       <div className="w-12 h-12 rounded-full bg-indigo-300 flex items-center justify-center">★</div>
@@ -247,23 +336,23 @@ function OverviewContent() {
     <>
       {/* Continue Learning */}
       <section className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Continue Learning</h2>
-        <p className="text-sm text-gray-600 mb-4">Pick up where you left off</p>
+        <h2 className="text-2xl font-bold text-white">Continue Learning</h2>
+        <p className="text-l text-gray-600 mb-4 text-white" style={{fontFamily : "poppine"}}>Pick up where you left off</p>
 
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          <LearningCard title="Solar System Adventure" progress={40} lessons={[1,2,3,4,5]} timeLeft="0:50 mins left" />
+        <div className="flex gap-4 overflow-x-auto pb-2 text-l" style={{fontFamily : "poppine"}}>
+          <LearningCard image="/forest.png" title="Solar System Adventure" progress={40} lessons={[1,2,3,4,5]} timeLeft="0:50 mins left" />
           <LearningCard title="Ocean Ecology" progress={65} lessons={[1,2,3,4]} timeLeft="1:10 hrs left" />
         </div>
       </section>
 
       {/* Recommended Modules */}
       <section>
-        <h2 className="text-2xl font-bold text-gray-900">Recommended Modules</h2>
-        <div className="text-sm text-gray-600 mb-4">Modules picked for you</div>
+        <h2 className="text-2xl font-bold text-gray-900 text-white">Recommended Modules</h2>
+        <div className="text-l text-gray-600 mb-4 text-white"  style={{fontFamily : "poppine"}}>Modules picked for you</div>
 
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          <RecommendedCard title="Forest and Rain" author="Dr. Ayesha" duration="2h 30m (10 Levels)" reward="+500 XP" rating={4.8} players={320} />
-          <RecommendedCard title="Wetlands Wonders" author="Dr. Kumar" duration="1h 20m (6 Levels)" reward="+250 XP" rating={4.6} players={120} />
+        <div className="flex gap-4 overflow-x-auto pb-2" style={{fontFamily : "poppine"}}>
+          <RecommendedCard image="/forest.png" title="Forest and Rain" author="Dr. Ayesha" duration="2h 30m (10 Levels)" reward="+500 XP" rating={4.8} players={320} />
+          <RecommendedCard image="/study.jpg" title="Wetlands Wonders" author="Dr. Kumar" duration="1h 20m (6 Levels)" reward="+250 XP" rating={4.6} players={120} />
         </div>
       </section>
     </>
@@ -275,53 +364,61 @@ function ModulesContent() {
   return (
     <div className="space-y-6">
       <section>
-        <h2 className="text-2xl font-bold text-gray-900">Climate & Weather</h2>
-        <div className="text-sm text-gray-600 mb-4">Top modules about climate and weather</div>
+        <h2 className="text-2xl font-bold text-gray-900 text-white">Climate & Weather</h2>
+        <div className="text-l text-gray-600 mb-4 text-white" style={{fontFamily : "poppine"}}>Top modules about climate and weather</div>
 
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          <RecommendedCard title="Forest and Rain" author="Dr. Ayesha" duration="2h 30m (10 Levels)" reward="+500 XP" rating={4.8} players={320} />
-          <RecommendedCard title="Storm Systems" author="Dr. Meera" duration="1h 45m (8 Levels)" reward="+350 XP" rating={4.7} players={210} />
-          <RecommendedCard title="Ocean Currents" author="Dr. Suresh" duration="2h 10m (9 Levels)" reward="+420 XP" rating={4.6} players={180} />
+        <div className="flex gap-4 overflow-x-auto pb-2" style={{fontFamily : "poppine"}}>
+          <RecommendedCard image="/forest.png" title="Forest and Rain" author="Dr. Ayesha" duration="2h 30m (10 Levels)" reward="+500 XP" rating={4.8} players={320} />
+          <RecommendedCard image="/cloud.jpg" title="Storm Systems" author="Dr. Meera" duration="1h 45m (8 Levels)" reward="+350 XP" rating={4.7} players={210} />
+          <RecommendedCard image="/earth.jpg" title="Ocean Currents" author="Dr. Suresh" duration="2h 10m (9 Levels)" reward="+420 XP" rating={4.6} players={180} />
         </div>
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-gray-900">Energy & Resources</h2>
-        <div className="text-sm text-gray-600 mb-4">Explore modules about energy and sustainable resources</div>
+        <h2 className="text-2xl font-bold text-gray-900 text-white">Energy & Resources</h2>
+        <div className="text-l text-gray-600 mb-4 text-white" style={{fontFamily : "poppine"}}>Explore modules about energy and sustainable resources</div>
 
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          <RecommendedCard title="Solar Harvest" author="Dr. Patel" duration="1h 50m (7 Levels)" reward="+300 XP" rating={4.5} players={140} />
-          <RecommendedCard title="Wind Energy Basics" author="Dr. Rao" duration="1h 20m (5 Levels)" reward="+200 XP" rating={4.4} players={110} />
-          <RecommendedCard title="Sustainable Materials" author="Dr. Amin" duration="2h 00m (8 Levels)" reward="+380 XP" rating={4.6} players={160} />
+        <div className="flex gap-4 overflow-x-auto pb-2" style={{fontFamily : "poppine"}}>
+          <RecommendedCard image="/study12.png" title="Solar Harvest" author="Dr. Patel" duration="1h 50m (7 Levels)" reward="+300 XP" rating={4.5} players={140} />
+          <RecommendedCard image="/forest.png" title="Wind Energy Basics" author="Dr. Rao" duration="1h 20m (5 Levels)" reward="+200 XP" rating={4.4} players={110} />
+          <RecommendedCard image="/forest.png" title="Sustainable Materials" author="Dr. Amin" duration="2h 00m (8 Levels)" reward="+380 XP" rating={4.6} players={160} />
         </div>
       </section>
     </div>
   );
 }
 
-function LearningCard({ title, progress, lessons, timeLeft }: { title: string; progress: number; lessons: number[]; timeLeft: string }) {
+function LearningCard({ image, title, progress, lessons, timeLeft }: { image?: string; title: string; progress: number; lessons: number[]; timeLeft: string }) {
   return (
-    <div className="min-w-[320px] bg-purple-600 text-white rounded-xl p-4 flex flex-col shadow-lg">
-      <div className="font-semibold text-lg mb-2">{title}</div>
-      <div className="text-xs mb-3">{lessons.length}/5 lessons</div>
-      <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden mb-2">
-        <div className="h-full bg-white" style={{ width: `${progress}%` }} />
-      </div>
-      <div className="text-xs opacity-90 mb-4">{timeLeft} • Keep going to Unlock Solar Badge</div>
-      <div className="mt-auto">
-        <button className="w-full py-2 rounded-md bg-yellow-400 text-black font-semibold flex items-center justify-center gap-2">
-          <Play size={14} /> Continue Module
-        </button>
+    <div className="min-w-[320px] bg-purple-600 text-white rounded-xl p-0 flex flex-col shadow-lg overflow-hidden">
+      {image && (
+        <div className="relative h-28 w-full">
+          <Image src={image} alt={title} fill className="object-cover" />
+        </div>
+      )}
+      <div className="p-4 flex flex-col">
+        <div className="font-semibold text-lg mb-2">{title}</div>
+        <div className="text-xs mb-3">{lessons.length}/5 lessons</div>
+        <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden mb-2">
+          <div className="h-full bg-white" style={{ width: `${progress}%` }} />
+        </div>
+        <div className="text-xs opacity-90 mb-4">{timeLeft} • Keep going to Unlock Solar Badge</div>
+        <div className="mt-auto">
+          <button className="w-full py-2 rounded-md bg-yellow-400 text-black font-semibold flex items-center justify-center gap-2">
+            <Play size={14} /> Continue Module
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function RecommendedCard({ title, author, duration, reward, rating, players }: { title: string; author: string; duration: string; reward: string; rating: number; players: number }) {
+function RecommendedCard({ image, title, author, duration, reward, rating, players }: { image?: string; title: string; author: string; duration: string; reward: string; rating: number; players: number }) {
+  const imgSrc = image ?? '/images/foliage.jpg';
   return (
     <div className="min-w-[380px] bg-white rounded-xl shadow p-0 overflow-hidden">
       <div className="relative h-44">
-        <Image src="/images/foliage.jpg" alt="foliage" fill className="object-cover" />
+        <Image src={imgSrc} alt={title} fill className="object-cover" />
         <div className="absolute top-3 left-3 bg-black/60 text-white text-xs px-2 py-1 rounded">7:09</div>
         <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded">30:00</div>
       </div>
@@ -365,4 +462,145 @@ function renderWeekDays() {
     </div>
 
   ));
+}
+
+/* ---------------------- New Tab Contents: Assignments, Missions, Leaderboard, Messages ---------------------- */
+
+function AssignmentsContent() {
+  const assignments = [
+    { id: 1, module: 'Solar System Adventure', title: 'Quiz: Planetary Motion', due: 'Sep 28, 2025', status: 'Pending' },
+    { id: 2, module: 'Ocean Ecology', title: 'Project: Plastic Cleanup Plan', due: 'Oct 02, 2025', status: 'In Progress' },
+    { id: 3, module: 'Forest and Rain', title: 'Assignment: Rainfall Data Analysis', due: 'Oct 05, 2025', status: 'Pending' },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-white mb-3">Assignments</h2>
+      <div className="space-y-3">
+        {assignments.map(a => (
+          <div key={a.id} className="bg-white/90 rounded-xl p-4 flex items-center justify-between">
+            <div style={{fontFamily : "poppine"}}>
+              <div className="font-semibold">{a.title}</div>
+              <div className="text-sm text-gray-600">Module: {a.module}</div>
+              <div className="text-xs text-gray-500">Due: {a.due}</div>
+            </div>
+            <div className="text-right" style={{fontFamily : "poppine"}}>
+              <div className={`px-3 py-1 rounded-full text-sm ${a.status === 'Pending' ? 'bg-yellow-400 text-black' : 'bg-green-500 text-white'}`}>{a.status}</div>
+              <button className="mt-2 block bg-blue-600 text-white px-3 py-1 rounded-md text-sm">Open</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MissionsContent() {
+  const missions = [
+    { id: 1, type: 'Daily', title: 'Collect 50 virtual seeds', reward: 50 },
+    { id: 2, type: 'Weekly', title: 'Complete 3 eco-modules', reward: 250 },
+    { id: 3, type: 'Challenge', title: 'Plant a community tree', reward: 1000 },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-white mb-3">Missions</h2>
+      <div className="grid grid-cols-1 gap-3">
+        {missions.map(m => (
+          <div key={m.id} className="bg-white/90 rounded-xl p-4 flex items-center justify-between">
+            <div>
+              <div className="text-sm text-gray-600">{m.type} Mission</div>
+              <div className="font-semibold">{m.title}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm">Reward</div>
+              <div className="font-bold">{m.reward} pts</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LeaderboardContent() {
+  const rows = [
+    { rank: 1, name: 'Priya K', points: 12050 },
+    { rank: 2, name: 'Ajay Sharma', points: 8979 },
+    { rank: 3, name: 'Rina P', points: 8320 },
+    { rank: 4, name: 'Suresh K', points: 7800 },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-white mb-3">Leaderboard</h2>
+      <div className="bg-white/90 rounded-xl overflow-hidden">
+        <table className="w-full text-left">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-3">Rank</th>
+              <th className="p-3">Name</th>
+              <th className="p-3">Points</th>
+            </tr>
+          </thead>
+          <tbody style={{fontFamily : "poppine"}}>
+            {rows.map(r => (
+              <tr key={r.rank} className="border-t">
+                <td className="p-3 font-semibold">#{r.rank}</td>
+                <td className="p-3">{r.name}</td>
+                <td className="p-3 font-bold">{r.points}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function MessagesContent() {
+  const contacts = [
+    { id: 1, name: 'Priya K', last: 'See you in the module!' },
+    { id: 2, name: 'Teacher Meera', last: 'Assignment graded' },
+    { id: 3, name: 'Suresh', last: 'Let\'s form a study group' },
+  ];
+
+  const messages = [
+    { id: 1, from: 'Priya K', text: 'Hey, want to join the Solar module?' },
+    { id: 2, from: 'You', text: 'Sure! Let\'s start tonight.' },
+    { id: 3, from: 'Priya K', text: 'Great — see you then!' },
+  ];
+
+  return (
+    <div className="grid grid-cols-12 gap-4" style={{fontFamily : "poppine"}}>
+      <div className="col-span-4">
+        <div className="bg-white/90 rounded-xl p-3 space-y-2">
+          {contacts.map(c => (
+            <div key={c.id} className="p-2 rounded hover:bg-gray-200 cursor-pointer">
+              <div className="font-semibold">{c.name}</div>
+              <div className="text-xs text-gray-600">{c.last}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="col-span-8">
+        <div className="bg-white/90 rounded-xl p-4 h-[420px] flex flex-col">
+          <div className="flex-1 overflow-y-auto space-y-3 p-2">
+            {messages.map(m => (
+              <div key={m.id} className={`max-w-[80%] p-2 rounded ${m.from === 'You' ? 'ml-auto bg-blue-100' : 'bg-gray-100'}`}>
+                <div className="text-sm">{m.text}</div>
+                <div className="text-xs text-gray-500 mt-1">{m.from}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-3 flex gap-2">
+            <input className="flex-1 p-2 rounded border" placeholder="Type a message..." />
+            <button className="px-4 py-2 bg-green-600 text-white rounded">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

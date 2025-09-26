@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 export default function SparklyGrowthPage() {
   return (
@@ -49,9 +50,11 @@ export default function SparklyGrowthPage() {
       </div>
 
       {/* Button */}
-      <button className="mt-12 bg-purple-600 hover:bg-purple-700 text-white font-medium px-8 py-3 rounded-full shadow-md transition">
-        Explore courses
-      </button>
+      <Link href="#modules">
+        <button className="mt-12 bg-purple-600 hover:bg-purple-700 text-white font-medium px-8 py-3 rounded-full shadow-md transition">
+          Explore courses
+        </button>
+      </Link>
     </div>
   );
 }
