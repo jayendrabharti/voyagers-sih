@@ -21,6 +21,12 @@ export default function GamesPage() {
       logoUrl: "/eco-strike/logo.png",
       link: "/games/eco-strike",
     },
+    {
+      title: "Eco Sprint",
+      description: "Help plants grow and thrive",
+      logoUrl: "/eco-sprint/logo.png",
+      link: "/games/eco-sprint",
+    },
   ];
 
   return (

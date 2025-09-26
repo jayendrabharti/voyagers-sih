@@ -26,17 +26,24 @@ type AnswerResult = {
   scores: { name: string; score: number }[];
 };
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:6900";
+const SOCKET_URL =
+  process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:6900";
 
 export default function GamePage() {
-  const [stage, setStage] = useState<"idle" | "queue" | "matched" | "playing" | "result" | "ended">("idle");
+  const [stage, setStage] = useState<
+    "idle" | "queue" | "matched" | "playing" | "result" | "ended"
+  >("idle");
   const [playerName, setPlayerName] = useState("");
   const [opponent, setOpponent] = useState("");
   const [gameId, setGameId] = useState<string | null>(null);
   const [currentQ, setCurrentQ] = useState<QuestionStartPayload | null>(null);
   const [answerIdx, setAnswerIdx] = useState<number | null>(null);
   const [result, setResult] = useState<AnswerResult | null>(null);
-  const [final, setFinal] = useState<{ finalScores: { name: string; score: number }[]; winner: string; isWinner: boolean } | null>(null);
+  const [final, setFinal] = useState<{
+    finalScores: { name: string; score: number }[];
+    winner: string;
+    isWinner: boolean;
+  } | null>(null);
 
   const [timeLeft, setTimeLeft] = useState(0);
   const questionStartRef = useRef<number>(0);
@@ -44,11 +51,28 @@ export default function GamePage() {
 
   const socketRef = useRef<Socket | null>(null);
 
-  
   const [defaultName, setDefaultName] = useState("Eco Player");
   useEffect(() => {
-    const kids = ["Sunny", "Breezy", "Leafy", "Splashy", "Pebble", "Sprout", "Twinkle", "Bumble"];
-    const animals = ["Panda", "Koala", "Turtle", "Dolphin", "Frog", "Otter", "Penguin", "Fox"];
+    const kids = [
+      "Sunny",
+      "Breezy",
+      "Leafy",
+      "Splashy",
+      "Pebble",
+      "Sprout",
+      "Twinkle",
+      "Bumble",
+    ];
+    const animals = [
+      "Panda",
+      "Koala",
+      "Turtle",
+      "Dolphin",
+      "Frog",
+      "Otter",
+      "Penguin",
+      "Fox",
+    ];
     const k = kids[Math.floor(Math.random() * kids.length)];
     const a = animals[Math.floor(Math.random() * animals.length)];
     setDefaultName(`${k} ${a}`);
@@ -60,15 +84,12 @@ export default function GamePage() {
     socketRef.current = socket;
 
     socket.on("connect", () => {
-      
       const name = playerName.trim() || defaultName;
       socket.emit("join-queue", name);
       setStage("queue");
     });
 
-    socket.on("queue-status", () => {
-      
-    });
+    socket.on("queue-status", () => {});
 
     socket.on("game-matched", (p: MatchedPayload) => {
       setGameId(p.gameId);
@@ -88,12 +109,11 @@ export default function GamePage() {
 
     socket.on("answer-result", (r: AnswerResult) => {
       setResult(r);
-      
+
       if (r.ended) setStage("result");
     });
 
     socket.on("question-reveal", (r: AnswerResult) => {
-      
       setResult({ ...r, ended: true });
       setStage("result");
     });
@@ -111,15 +131,16 @@ export default function GamePage() {
     return () => {
       socket.disconnect();
     };
-    
   }, [stage !== "idle"]);
 
-  
   useEffect(() => {
     if (!currentQ || stage !== "playing") return;
     const interval = setInterval(() => {
       const elapsed = Date.now() - questionStartRef.current;
-      const remaining = Math.max(0, Math.floor((currentQ.timeLimit - elapsed) / 1000));
+      const remaining = Math.max(
+        0,
+        Math.floor((currentQ.timeLimit - elapsed) / 1000)
+      );
       setTimeLeft(remaining);
       if (remaining <= 0) {
         clearInterval(interval);
@@ -139,21 +160,37 @@ export default function GamePage() {
 
   function sendAnswer(idx: number) {
     if (!socketRef.current || !gameId || !currentQ) return;
-    if (answerIdx !== null) return; 
+    if (answerIdx !== null) return;
     setAnswerIdx(idx);
     const timeTaken = Date.now() - questionStartRef.current;
-    socketRef.current.emit("answer-question", { gameId, answer: idx, timeTaken });
+    socketRef.current.emit("answer-question", {
+      gameId,
+      answer: idx,
+      timeTaken,
+    });
   }
 
-  
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-200 to-sky-200 text-emerald-900">
+    <div
+      className="min-h-screen text-emerald-900"
+      style={{
+        backgroundImage:
+          "url('/eco-sprint/background.png'), linear-gradient(to bottom, #a7f3d0, #bae6fd)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="mx-auto max-w-3xl p-6">
         <header className="text-center mb-6">
-          <h1 className="text-3xl md:text-4xl drop-shadow-sm">
-            🌿 Eco Sprint: Fastest Finger
-          </h1>
-          <p className="text-sm opacity-80">Be the quickest eco-hero!</p>
+          <img
+            src="/eco-sprint/logo.png"
+            alt="Eco Sprint Logo"
+            className="mx-auto max-w-80 mb-4 drop-shadow-lg"
+          />
+          <p className="text-lg font-medium opacity-90 drop-shadow-sm">
+            Be the quickest eco-hero!
+          </p>
         </header>
 
         {stage === "idle" && (
@@ -172,7 +209,8 @@ export default function GamePage() {
               Play Game
             </button>
             <div className="mt-4 text-xs opacity-80">
-              Matchmaking pairs 2 players. Queue size is 1. Questions about the environment.
+              Matchmaking pairs 2 players. Queue size is 1. Questions about the
+              environment.
             </div>
           </div>
         )}
@@ -187,18 +225,26 @@ export default function GamePage() {
         {(stage === "matched" || stage === "playing" || stage === "result") && (
           <div className="bg-white/80 rounded-2xl p-6 shadow">
             <div className="flex items-center justify-between text-sm mb-4">
-              <span>You: <b>{playerName || defaultName}</b></span>
-              <span>Vs <b>{opponent}</b></span>
+              <span>
+                You: <b>{playerName || defaultName}</b>
+              </span>
+              <span>
+                Vs <b>{opponent}</b>
+              </span>
             </div>
 
             {stage !== "matched" && currentQ && (
               <div>
                 <div className="flex items-center justify-between mb-2 text-sm">
-                  <div>Question {currentQ.questionNumber}/{currentQ.totalQuestions}</div>
+                  <div>
+                    Question {currentQ.questionNumber}/{currentQ.totalQuestions}
+                  </div>
                   <div className="font-bold">⏱ {timeLeft}s</div>
                 </div>
                 <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-4">
-                  <div className="text-lg mb-4">{currentQ.question.question}</div>
+                  <div className="text-lg mb-4">
+                    {currentQ.question.question}
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {currentQ.question.options.map((opt, i) => (
                       <button
@@ -207,10 +253,14 @@ export default function GamePage() {
                         onClick={() => sendAnswer(i)}
                         className={
                           "rounded-xl border px-3 py-3 text-left bg-white hover:bg-emerald-100 transition " +
-                          (answerIdx === i ? " border-emerald-600" : " border-emerald-200")
+                          (answerIdx === i
+                            ? " border-emerald-600"
+                            : " border-emerald-200")
                         }
                       >
-                        <span className="mr-2">{String.fromCharCode(65 + i)}.</span>
+                        <span className="mr-2">
+                          {String.fromCharCode(65 + i)}.
+                        </span>
                         {opt}
                       </button>
                     ))}
@@ -223,7 +273,9 @@ export default function GamePage() {
             {stage === "playing" && result && !result.ended && (
               <div className="mt-4 p-3 rounded-xl bg-orange-50 border border-orange-200 text-sm">
                 <b>{result.by}</b> answered wrong. The question is still open!
-                <div className="mt-1 opacity-70">Be quick and choose wisely 🌿</div>
+                <div className="mt-1 opacity-70">
+                  Be quick and choose wisely 🌿
+                </div>
               </div>
             )}
 
@@ -231,14 +283,18 @@ export default function GamePage() {
               <div className="mt-4 p-4 rounded-xl bg-yellow-50 border border-yellow-200">
                 {result.by && (
                   <div className="mb-1">
-                    <b>{result.by}</b> answered {result.isCorrect ? "correctly" : "wrong"}.
+                    <b>{result.by}</b> answered{" "}
+                    {result.isCorrect ? "correctly" : "wrong"}.
                   </div>
                 )}
                 {result.explanation && (
                   <div className="text-sm opacity-80">{result.explanation}</div>
                 )}
                 <div className="mt-2 text-sm">
-                  Scores: {result.scores.map((s) => `${s.name} (${s.score})`).join(" • ")}
+                  Scores:{" "}
+                  {result.scores
+                    .map((s) => `${s.name} (${s.score})`)
+                    .join(" • ")}
                 </div>
               </div>
             )}
@@ -251,13 +307,14 @@ export default function GamePage() {
             {final.finalScores?.length > 0 && (
               <div className="text-sm mb-4">
                 {final.finalScores.map((s, i) => (
-                  <div key={i}>{s.name}: {s.score}</div>
+                  <div key={i}>
+                    {s.name}: {s.score}
+                  </div>
                 ))}
               </div>
             )}
             <button
               onClick={() => {
-                
                 setStage("idle");
                 setGameId(null);
                 setOpponent("");
