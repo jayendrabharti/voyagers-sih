@@ -1,3 +1,11 @@
+"use client";
+import LogoLoop, { LogoItem } from "@/components/LogoLoop";
+import Image from "next/image";
+import { ImPacman } from "react-icons/im";
+import { FaTrophy } from "react-icons/fa";
+import { IoGameController } from "react-icons/io5";
+import { SiNintendo3Ds } from "react-icons/si";
+import { SlBadge } from "react-icons/sl";
 import Link from "next/link";
 
 interface Game {
@@ -5,169 +13,142 @@ interface Game {
   description: string;
   logoUrl: string;
   link: string;
+  thumbnailUrl?: string;
+  tagline?: string;
 }
 
+const Games: Game[] = [
+  {
+    title: "Recycle Rush",
+    description: "Sort waste fast! Each correct pick = +10 points. ",
+    logoUrl: "/recycle-rush/recycle-rush-logo.png",
+    thumbnailUrl: "/recycle-rush/thumbnail.jpg",
+    link: "/games/recycle-rush",
+    tagline: "Play quicker, score higher!",
+  },
+  {
+    title: "Eco Strike",
+    description:
+      "1v1 quiz battle! Correct answers = strike. Lose health, lose the game.",
+    logoUrl: "/eco-strike/logo.png",
+    thumbnailUrl: "/eco-strike/thumbnail.jpg",
+    link: "/games/eco-strike",
+    tagline: "Strike. Survive. Win.",
+  },
+  {
+    title: "Eco Sprint",
+    description:
+      "Race your rival in a rapid-fire eco-quiz. Fastest brain wins the sprint!",
+    logoUrl: "/eco-sprint/logo.png",
+    thumbnailUrl: "/eco-sprint/thumbnail.jpg",
+    link: "/games/eco-sprint",
+    tagline: "Think Fast. Answer Faster.",
+  },
+];
+
+const FooterLogos: LogoItem[] = [
+  { node: <ImPacman color="#F5DA27" /> },
+  { node: <FaTrophy color="#F5DA27" /> },
+  { node: <IoGameController color="#F5DA27" /> },
+  { node: <SiNintendo3Ds color="#F5DA27" /> },
+  { node: <SlBadge color="#F5DA27" /> },
+];
+
 export default function GamesPage() {
-  const games: Game[] = [
-    {
-      title: "Recycle Rush",
-      description: "A fun recycling game",
-      logoUrl: "/recycle-rush/recycle-rush-logo.png",
-      link: "/games/recycle-rush",
-    },
-    {
-      title: "Eco Strike",
-      description: "An exciting environmental adventure",
-      logoUrl: "/eco-strike/logo.png",
-      link: "/games/eco-strike",
-    },
-    {
-      title: "Eco Sprint",
-      description: "Help plants grow and thrive",
-      logoUrl: "/eco-sprint/logo.png",
-      link: "/games/eco-sprint",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-200 via-blue-200 to-green-300">
-      {/* Fun Header with Environmental Theme */}
-      <div className="bg-gradient-to-r from-green-400 to-blue-400 shadow-lg">
-        <div className="max-w-6xl mx-auto px-4 py-8 text-center">
-          <div className="mb-4">
-            <span className="text-6xl">🌱</span>
-            <span className="text-6xl mx-2">🎮</span>
-            <span className="text-6xl">🌍</span>
-          </div>
-          <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-lg">
-            Eco Games for Kids!
-          </h1>
-          <p className="text-xl text-white font-medium">
-            Play games and save our planet! 🌟
-          </p>
-        </div>
-      </div>
+    <main className="flex flex-col justify-between h-full min-h-screen bg-[#141219]">
+      {/* navbar */}
+      <nav className="sticky top-0 bg-gradient-to-r from-green-400 to-sky-400 shadow-lg z-50 px-6 py-2 flex items-center justify-between">
+        <Image
+          src="/eco-play-logo-small.png"
+          alt="ECO Play Logo"
+          width={100}
+          height={100}
+          className="size-15"
+        />
+        <span
+          className={`text-xl text-yellow-300 drop-shadow-[1px_1px_0px_black]`}
+        >
+          Games & Missions
+        </span>
 
-      {/* Games Section */}
-      <div className="mx-auto px-4 py-12">
-        <div className="flex flex-row gap-8 justify-center flex-wrap">
-          {games.map((game) => (
+        <span
+          className={`p-2 rounded-full aspect-square bg-zinc-500 bg-opacity-20 text-black font-bold`}
+        >
+          U
+        </span>
+      </nav>
+
+      <div className="w-full overflow-x-auto overflow-y-hidden py-8">
+        <div className="flex flex-row gap-6 px-6 min-w-max scroll-smooth snap-x snap-mandatory">
+          {Games.map((game, index) => (
             <div
-              key={game.title}
-              className="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-all duration-300 border-4 border-green-300 max-w-lg w-full"
+              key={index}
+              className="flex-shrink-0 w-[320px] rounded-2xl shadow-2xl bg-gradient-to-b from-slate-700 to-slate-900 overflow-hidden border border-slate-600 snap-start origin-left"
             >
-              {/* Colorful Header with Nature Elements */}
-              <div className="bg-gradient-to-r from-green-400 via-blue-400 to-green-500 p-6 relative overflow-hidden">
-                <div className="absolute top-2 left-2 text-2xl animate-bounce">
-                  🌳
-                </div>
-                <div className="absolute top-2 right-2 text-2xl animate-pulse">
-                  ♻️
-                </div>
-                <div className="absolute bottom-2 left-4 text-xl animate-bounce delay-100">
-                  🦋
-                </div>
-                <div className="absolute bottom-2 right-4 text-xl animate-pulse delay-200">
-                  🌸
-                </div>
-
-                <div className="text-center relative z-10">
-                  <img
-                    src={game.logoUrl}
-                    alt={`${game.title} logo`}
-                    className="max-h-32 max-w-48 mx-auto object-contain drop-shadow-2xl"
-                  />
-                </div>
+              {/* Game Thumbnail */}
+              <div className="relative h-48 overflow-hidden">
+                <Image
+                  src={game.thumbnailUrl ?? game.logoUrl}
+                  alt={`${game.title} Logo`}
+                  width={320}
+                  height={200}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
-              {/* Game Content */}
-              <div className="p-8 text-center">
-                <h2 className="text-3xl font-bold text-green-700 mb-4">
+              {/* Card Content */}
+              <div className="p-6 text-center space-y-4">
+                {/* Title */}
+                <h3 className={`text-2xl font-bold text-green-400 mb-4`}>
                   {game.title}
-                </h2>
+                </h3>
 
-                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                {/* Description */}
+                <p className="text-white text-xs leading-relaxed font-extralight">
                   {game.description}
                 </p>
 
-                {/* Fun Decorative Elements */}
-                <div className="flex justify-center gap-4 mb-8">
-                  <span className="text-3xl animate-spin-slow">🌍</span>
-                  <span className="text-3xl animate-bounce">🎯</span>
-                  <span className="text-3xl animate-pulse">⚡</span>
-                </div>
+                {/* Tagline with game controller icons */}
+                {game.tagline && (
+                  <div className="flex items-center justify-center gap-2 text-yellow-400 text-xs font-bold">
+                    <IoGameController size={18} />
+                    <span>{game.tagline}</span>
+                    <IoGameController size={18} />
+                  </div>
+                )}
 
-                {/* Big Colorful Play Button */}
+                {/* Play Button */}
                 <Link
                   href={game.link}
+                  className="inline-block w-full mt-6"
                   target="_blank"
-                  className="inline-block bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white font-bold py-4 px-12 rounded-full text-2xl transform hover:scale-110 transition-all duration-300 shadow-2xl border-4 border-white"
                 >
-                  🎮 Let's Play! 🌟
+                  <button className="w-full bg-gradient-to-b from-orange-600 to-yellow-300 hover:from-yellow-300 hover:to-orange-600 text-black font-bold py-3 px-6 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg cursor-pointer">
+                    Play
+                  </button>
                 </Link>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Fun Environmental Messages */}
-        <div className="mt-16 text-center">
-          <div className="bg-white rounded-3xl shadow-xl p-8 border-4 border-yellow-300 max-w-2xl mx-auto">
-            <div className="text-6xl mb-4">🌈</div>
-            <h3 className="text-3xl font-bold text-green-700 mb-4">
-              More Fun Coming Soon!
-            </h3>
-            <p className="text-lg text-gray-700 mb-6">
-              We're creating more awesome games to help you become an Earth
-              Hero!
-            </p>
-
-            {/* Coming Soon Games Preview */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-              <div className="bg-gradient-to-b from-blue-100 to-blue-200 rounded-2xl p-4 border-2 border-blue-300">
-                <div className="text-4xl mb-2">🧮</div>
-                <div className="text-lg font-bold text-blue-700">
-                  Math Forest
-                </div>
-                <div className="text-sm text-blue-600">Count the trees!</div>
-              </div>
-              <div className="bg-gradient-to-b from-green-100 to-green-200 rounded-2xl p-4 border-2 border-green-300">
-                <div className="text-4xl mb-2">🗺️</div>
-                <div className="text-lg font-bold text-green-700">
-                  World Explorer
-                </div>
-                <div className="text-sm text-green-600">
-                  Discover our planet!
-                </div>
-              </div>
-              <div className="bg-gradient-to-b from-purple-100 to-purple-200 rounded-2xl p-4 border-2 border-purple-300">
-                <div className="text-4xl mb-2">🔬</div>
-                <div className="text-lg font-bold text-purple-700">
-                  Nature Lab
-                </div>
-                <div className="text-sm text-purple-600">Science is fun!</div>
-              </div>
-            </div>
+          <div className="flex-shrink-0 w-[320px] rounded-2xl shadow-2xl bg-gradient-to-b from-slate-700 to-slate-900 overflow-hidden border border-slate-600 flex flex-col items-center justify-center gap-4 snap-start">
+            <span className="text-xl text-white ">More Games</span>
+            <span className="text-sm text-zinc-400">Coming soon...</span>
           </div>
         </div>
       </div>
 
-      {/* Fun Footer */}
-      <div className="bg-gradient-to-r from-green-500 to-blue-500 mt-16">
-        <div className="max-w-6xl mx-auto px-4 py-8 text-center">
-          <div className="text-4xl mb-4">
-            <span className="animate-pulse">🌱</span>
-            <span className="animate-bounce mx-2">❤️</span>
-            <span className="animate-pulse">🌍</span>
-          </div>
-          <p className="text-white text-xl font-medium">
-            Play, Learn, and Save Our Beautiful Planet!
-          </p>
-          <p className="text-green-100 text-sm mt-2">
-            Every game you play helps you become a nature superhero! 🦸‍♀️🦸‍♂️
-          </p>
-        </div>
+      {/* footer logo loop */}
+      <div className="relative overflow-hidden py-4">
+        <LogoLoop
+          logos={FooterLogos}
+          speed={80}
+          direction="left"
+          logoHeight={40}
+          gap={40}
+          fadeOut
+        />
       </div>
-    </div>
+    </main>
   );
 }

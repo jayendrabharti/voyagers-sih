@@ -100,7 +100,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pressStart.variable} antialiased`}>{children}</body>
+      <body className={`${pressStart.variable} antialiased min-h-dvh h-full`}>
+        {children}
+      </body>
     </html>
   );
 }
