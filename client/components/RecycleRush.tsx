@@ -303,7 +303,7 @@ export default function RecycleRush({
     // Load background image
     if (!backgroundImageRef.current) {
       backgroundImageRef.current = new Image();
-      backgroundImageRef.current.src = "/recycle-rush/recycle-run-bg.jpg";
+      backgroundImageRef.current.src = "/recycle-rush/recycle-rush-bg.jpg";
     }
 
     // Create bin at bottom center - hardcoded width, height calculated from aspect ratio
@@ -846,9 +846,9 @@ export default function RecycleRush({
 
       {/* Main Menu */}
       {gameState === "menu" && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white font-sans text-center z-[100] bg-black/80 bg-[url('/recycle-rush/recycle-run-main-menu-bg.png')] bg-cover bg-center gap-6">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white font-sans text-center z-[100] bg-black/80 bg-[url('/recycle-rush/recycle-rush-main-menu-bg.png')] bg-cover bg-center gap-6">
           <img
-            src="/recycle-rush/recycle-run-logo.png"
+            src="/recycle-rush/recycle-rush-logo.png"
             alt="Recycle Rush Logo"
             className="max-w-lg max-h-lg bg"
           />
@@ -888,9 +888,9 @@ export default function RecycleRush({
 
       {/* Pause Menu */}
       {gameState === "paused" && (
-        <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white font-sans text-center z-[100] bg-[url('/recycle-rush/recycle-run-main-menu-bg.png')] bg-cover bg-center gap-10">
+        <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white font-sans text-center z-[100] bg-[url('/recycle-rush/recycle-rush-main-menu-bg.png')] bg-cover bg-center gap-10">
           <img
-            src="/recycle-rush/recycle-run-logo.png"
+            src="/recycle-rush/recycle-rush-logo.png"
             alt="Recycle Rush Logo"
             className="max-w-sm max-h-sm bg"
           />
@@ -922,9 +922,9 @@ export default function RecycleRush({
 
       {/* Game Over Screen */}
       {gameState === "gameOver" && (
-        <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white font-sans text-center z-[100] bg-[url('/recycle-rush/recycle-run-main-menu-bg.png')] bg-cover bg-center gap-10">
+        <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white font-sans text-center z-[100] bg-[url('/recycle-rush/recycle-rush-main-menu-bg.png')] bg-cover bg-center gap-10">
           <img
-            src="/recycle-rush/recycle-run-logo.png"
+            src="/recycle-rush/recycle-rush-logo.png"
             alt="Recycle Rush Logo"
             className="max-w-sm max-h-sm bg"
           />
