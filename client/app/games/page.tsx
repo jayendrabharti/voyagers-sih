@@ -16,7 +16,7 @@ export default function GamesPage() {
       link: "/games/recycle-rush",
     },
     {
-      title: "eco-strike",
+      title: "Eco Strike",
       description: "An exciting environmental adventure",
       logoUrl: "/eco-strike/logo.png",
       link: "/games/eco-strike",
@@ -43,8 +43,8 @@ export default function GamesPage() {
       </div>
 
       {/* Games Section */}
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="grid gap-8 place-items-center">
+      <div className="mx-auto px-4 py-12">
+        <div className="flex flex-row gap-8 justify-center flex-wrap">
           {games.map((game) => (
             <div
               key={game.title}
@@ -94,6 +94,7 @@ export default function GamesPage() {
                 {/* Big Colorful Play Button */}
                 <Link
                   href={game.link}
+                  target="_blank"
                   className="inline-block bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white font-bold py-4 px-12 rounded-full text-2xl transform hover:scale-110 transition-all duration-300 shadow-2xl border-4 border-white"
                 >
                   🎮 Let's Play! 🌟
