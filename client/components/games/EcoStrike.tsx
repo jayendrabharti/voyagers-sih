@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowLeft, HomeIcon } from "lucide-react";
+import Link from "next/link";
 import { useRef, useEffect, useCallback, useState } from "react";
 
 // Canvas data interface
@@ -1067,6 +1069,13 @@ export default function EcoStrike({
             alt="Start Battle"
             className="w-40 cursor-pointer hover:scale-110 transition-transform duration-300 drop-shadow-2xl"
           />
+          <Link href={"/home"}>
+            <button className="absolute top-5 left-5 flex items-center gap-2 bg-gray-800 hover:bg-gray-500 bg-opacity-70 hover:bg-opacity-90 text-white px-4 py-2 rounded-lg shadow-lg border border-white cursor-pointer hover:scale-110 transition-all duration-200">
+              <ArrowLeft />
+              Home
+              <HomeIcon />
+            </button>
+          </Link>
         </div>
       )}
 
@@ -1093,6 +1102,13 @@ export default function EcoStrike({
               Main Menu
             </button>
           </div>
+          <Link href={"/home"}>
+            <button className="absolute top-5 left-5 flex items-center gap-2 bg-gray-800 hover:bg-gray-500 bg-opacity-70 hover:bg-opacity-90 text-white px-4 py-2 rounded-lg shadow-lg border border-white cursor-pointer hover:scale-110 transition-all duration-200">
+              <ArrowLeft />
+              Home
+              <HomeIcon />
+            </button>
+          </Link>
         </div>
       )}
 
@@ -1120,6 +1136,13 @@ export default function EcoStrike({
               Main Menu
             </button>
           </div>
+          <Link href={"/home"}>
+            <button className="absolute top-5 left-5 flex items-center gap-2 bg-gray-800 hover:bg-gray-500 bg-opacity-70 hover:bg-opacity-90 text-white px-4 py-2 rounded-lg shadow-lg border border-white cursor-pointer hover:scale-110 transition-all duration-200">
+              <ArrowLeft />
+              Home
+              <HomeIcon />
+            </button>
+          </Link>
         </div>
       )}
     </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowLeft, HomeIcon } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
@@ -329,7 +331,13 @@ export default function GamePage() {
             </button>
           </div>
         )}
-
+        <Link href={"/home"}>
+          <button className="absolute top-5 left-5 flex items-center gap-2 bg-gray-800 hover:bg-gray-500 bg-opacity-70 hover:bg-opacity-90 text-white px-4 py-2 rounded-lg shadow-lg border border-white cursor-pointer hover:scale-110 transition-all duration-200">
+            <ArrowLeft />
+            Home
+            <HomeIcon />
+          </button>
+        </Link>
         <footer className="mt-8 text-center text-xs opacity-70">
           Made for young eco-explorers 🌎
         </footer>
