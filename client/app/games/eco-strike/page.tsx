@@ -1,6 +1,6 @@
 "use client";
 
-import EcoStrike from "@/components/EcoStrike";
+import EcoStrike from "@/components/games/EcoStrike";
 
 export default function EcoStrikePage() {
   return (

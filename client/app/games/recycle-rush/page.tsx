@@ -1,4 +1,4 @@
-import RecycleRush from "@/components/RecycleRush";
+import RecycleRush from "@/components/games/RecycleRush";
 
 export default function RecycleRushPage() {
   return (

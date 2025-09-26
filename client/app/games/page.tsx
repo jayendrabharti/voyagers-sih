@@ -7,6 +7,8 @@ import { IoGameController } from "react-icons/io5";
 import { SiNintendo3Ds } from "react-icons/si";
 import { SlBadge } from "react-icons/sl";
 import Link from "next/link";
+import { useRef, useState } from "react";
+import UserButton from "@/components/UserButton";
 
 interface Game {
   title: string;
@@ -59,24 +61,22 @@ export default function GamesPage() {
     <main className="flex flex-col justify-between h-full min-h-screen bg-[#141219]">
       {/* navbar */}
       <nav className="sticky top-0 bg-gradient-to-r from-green-400 to-sky-400 shadow-lg z-50 px-6 py-2 flex items-center justify-between">
-        <Image
-          src="/eco-play-logo-small.png"
-          alt="ECO Play Logo"
-          width={100}
-          height={100}
-          className="size-15"
-        />
+        <Link href="/home">
+          <Image
+            src="/eco-play-logo-small.png"
+            alt="ECO Play Logo"
+            width={100}
+            height={100}
+            className="size-15"
+          />
+        </Link>
         <span
           className={`text-xl text-yellow-300 drop-shadow-[1px_1px_0px_black]`}
         >
           Games & Missions
         </span>
 
-        <span
-          className={`p-2 rounded-full aspect-square bg-zinc-500 bg-opacity-20 text-black font-bold`}
-        >
-          U
-        </span>
+        <UserButton />
       </nav>
 
       <div className="w-full overflow-x-auto overflow-y-hidden py-8">
