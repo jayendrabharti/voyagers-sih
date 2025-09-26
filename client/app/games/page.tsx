@@ -1,6 +1,7 @@
 "use client";
 import LogoLoop, { LogoItem } from "@/components/LogoLoop";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { ImPacman } from "react-icons/im";
 import { FaTrophy } from "react-icons/fa";
 import { IoGameController } from "react-icons/io5";
@@ -58,36 +59,87 @@ const FooterLogos: LogoItem[] = [
 
 export default function GamesPage() {
   return (
-    <main className="flex flex-col justify-between h-full min-h-screen bg-[#141219]">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="flex flex-col justify-between h-full min-h-screen bg-[#141219]"
+    >
       {/* navbar */}
-      <nav className="sticky top-0 bg-gradient-to-r from-green-400 to-sky-400 shadow-lg z-50 px-6 py-2 flex items-center justify-between">
+      <motion.nav
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="sticky top-0 bg-gradient-to-r from-green-400 to-sky-400 shadow-lg z-50 px-6 py-2 flex items-center justify-between"
+      >
         <Link href="/home">
-          <Image
-            src="/eco-play-logo-small.png"
-            alt="ECO Play Logo"
-            width={100}
-            height={100}
-            className="size-15"
-          />
+          <motion.div
+            whileHover={{ scale: 1.1, rotate: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Image
+              src="/eco-play-logo-small.png"
+              alt="ECO Play Logo"
+              width={100}
+              height={100}
+              className="size-15"
+            />
+          </motion.div>
         </Link>
-        <span
+        <motion.span
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            duration: 0.4,
+            delay: 0.4,
+            type: "spring" as const,
+            stiffness: 200,
+          }}
           className={`text-xl text-yellow-300 drop-shadow-[1px_1px_0px_black]`}
         >
           Games & Missions
-        </span>
+        </motion.span>
 
-        <UserButton />
-      </nav>
+        <motion.div
+          initial={{ x: 20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <UserButton />
+        </motion.div>
+      </motion.nav>
 
-      <div className="w-full overflow-x-auto overflow-y-hidden py-8">
-        <div className="flex flex-row gap-6 px-6 min-w-max scroll-smooth snap-x snap-mandatory">
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        className="w-full overflow-x-auto overflow-y-hidden py-8"
+      >
+        <motion.div className="flex flex-row gap-6 px-6 min-w-max scroll-smooth snap-x snap-mandatory">
           {Games.map((game, index) => (
-            <div
+            <motion.div
               key={index}
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.5,
+                delay: 1 + index * 0.2,
+                type: "spring" as const,
+                stiffness: 100,
+              }}
+              whileHover={{
+                y: -10,
+                scale: 1.02,
+                transition: { duration: 0.3 },
+              }}
               className="flex-shrink-0 w-[320px] rounded-2xl shadow-2xl bg-gradient-to-b from-slate-700 to-slate-900 overflow-hidden border border-slate-600 snap-start origin-left"
             >
               {/* Game Thumbnail */}
-              <div className="relative h-48 overflow-hidden">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.4 }}
+                className="relative h-48 overflow-hidden"
+              >
                 <Image
                   src={game.thumbnailUrl ?? game.logoUrl}
                   alt={`${game.title} Logo`}
@@ -95,27 +147,69 @@ export default function GamesPage() {
                   height={200}
                   className="w-full h-full object-cover"
                 />
-              </div>
+              </motion.div>
 
               {/* Card Content */}
-              <div className="p-6 text-center space-y-4">
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 1.2 + index * 0.2 }}
+                className="p-6 text-center space-y-4"
+              >
                 {/* Title */}
-                <h3 className={`text-2xl font-bold text-green-400 mb-4`}>
+                <motion.h3
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.4, delay: 1.4 + index * 0.2 }}
+                  className={`text-2xl font-bold text-green-400 mb-4`}
+                >
                   {game.title}
-                </h3>
+                </motion.h3>
 
                 {/* Description */}
-                <p className="text-white text-xs leading-relaxed font-extralight">
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 1.6 + index * 0.2 }}
+                  className="text-white text-xs leading-relaxed font-extralight"
+                >
                   {game.description}
-                </p>
+                </motion.p>
 
                 {/* Tagline with game controller icons */}
                 {game.tagline && (
-                  <div className="flex items-center justify-center gap-2 text-yellow-400 text-xs font-bold">
-                    <IoGameController size={18} />
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: 1.8 + index * 0.2,
+                      type: "spring" as const,
+                    }}
+                    className="flex items-center justify-center gap-2 text-yellow-400 text-xs font-bold"
+                  >
+                    <motion.div
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      <IoGameController size={18} />
+                    </motion.div>
                     <span>{game.tagline}</span>
-                    <IoGameController size={18} />
-                  </div>
+                    <motion.div
+                      animate={{ rotate: [0, -10, 10, 0] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      <IoGameController size={18} />
+                    </motion.div>
+                  </motion.div>
                 )}
 
                 {/* Play Button */}
@@ -124,22 +218,57 @@ export default function GamesPage() {
                   className="inline-block w-full mt-6"
                   target="_blank"
                 >
-                  <button className="w-full bg-gradient-to-b from-orange-600 to-yellow-300 hover:from-yellow-300 hover:to-orange-600 text-black font-bold py-3 px-6 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg cursor-pointer">
+                  <motion.button
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 2 + index * 0.2 }}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 10px 25px rgba(251, 191, 36, 0.3)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full bg-gradient-to-b from-orange-600 to-yellow-300 hover:from-yellow-300 hover:to-orange-600 text-black font-bold py-3 px-6 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg cursor-pointer"
+                  >
                     Play
-                  </button>
+                  </motion.button>
                 </Link>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
-          <div className="flex-shrink-0 w-[320px] rounded-2xl shadow-2xl bg-gradient-to-b from-slate-700 to-slate-900 overflow-hidden border border-slate-600 flex flex-col items-center justify-center gap-4 snap-start">
-            <span className="text-xl text-white ">More Games</span>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.5,
+              delay: 2.5,
+              type: "spring" as const,
+              stiffness: 100,
+            }}
+            whileHover={{
+              y: -5,
+              transition: { duration: 0.3 },
+            }}
+            className="flex-shrink-0 w-[320px] rounded-2xl shadow-2xl bg-gradient-to-b from-slate-700 to-slate-900 overflow-hidden border border-slate-600 flex flex-col items-center justify-center gap-4 snap-start"
+          >
+            <motion.span
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="text-xl text-white"
+            >
+              More Games
+            </motion.span>
             <span className="text-sm text-zinc-400">Coming soon...</span>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
 
       {/* footer logo loop */}
-      <div className="relative overflow-hidden py-4">
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 3 }}
+        className="relative overflow-hidden py-4"
+      >
         <LogoLoop
           logos={FooterLogos}
           speed={80}
@@ -148,7 +277,7 @@ export default function GamesPage() {
           gap={40}
           fadeOut
         />
-      </div>
-    </main>
+      </motion.div>
+    </motion.main>
   );
 }

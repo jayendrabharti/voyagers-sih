@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import Explore from "@/components/explore";
 import HowItWork from "@/components/HowItWork";
@@ -12,8 +13,14 @@ import Trending from "@/components/trending";
 import Footer from "@/components/Footer";
 
 export default function HomePage() {
+  const pageVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    transition: { duration: 0.5 },
+  };
+
   return (
-    <>
+    <motion.div initial="initial" animate="animate" variants={pageVariants}>
       <Navbar />
       <Hero />
       <Platform />
@@ -23,6 +30,6 @@ export default function HomePage() {
       <Join />
       <FAQ />
       <Footer />
-    </>
+    </motion.div>
   );
 }

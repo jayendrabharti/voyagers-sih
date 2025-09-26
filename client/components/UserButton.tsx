@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function UserButton({ className = "" }: { className?: string }) {
   const [user, setUser] = useState<any>(null);
@@ -47,36 +48,67 @@ export default function UserButton({ className = "" }: { className?: string }) {
             fontFamily: '"Press Start 2P", system-ui, sans-serif',
           }}
         >
-          SIGN UP
+          <motion.span whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            SIGN UP
+          </motion.span>
         </Link>
       ) : (
         <div className={`relative ${className}`}>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => setDropdownOpen((prev) => !prev)}
             className="h-10 w-10 overflow-hidden rounded-full border-2 border-yellow-400"
           >
-            <img
+            <motion.img
+              whileHover={{ scale: 1.1 }}
               src="/avatar.png"
               alt="Profile"
               className="h-full w-full object-cover"
             />
-          </button>
+          </motion.button>
 
           {/* Dropdown Menu */}
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white shadow-lg border p-3 z-50">
-              <p className="text-sm font-semibold text-gray-800">
-                {user.fullName || "User"}
-              </p>
-              <p className="text-xs text-gray-500 mb-3">{user.email}</p>
-              <button
-                onClick={handleLogout}
-                className="w-full rounded-md bg-red-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-600 transition"
+          <AnimatePresence>
+            {dropdownOpen && (
+              <motion.div
+                ref={dropdownRef}
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 mt-2 w-48 rounded-lg bg-white shadow-lg border p-3 z-50"
               >
-                Logout
-              </button>
-            </div>
-          )}
+                <motion.p
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                  className="text-sm font-semibold text-gray-800"
+                >
+                  {user.fullName || "User"}
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.15 }}
+                  className="text-xs text-gray-500 mb-3"
+                >
+                  {user.email}
+                </motion.p>
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleLogout}
+                  className="w-full rounded-md bg-red-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-600 transition"
+                >
+                  Logout
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
     </>
